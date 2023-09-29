@@ -6,7 +6,7 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 21:12:21 by mosada            #+#    #+#             */
-/*   Updated: 2023/09/27 15:27:19 by mosada           ###   ########.fr       */
+/*   Updated: 2023/09/29 15:00:52 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,11 @@ char	*ft_strdup(const char *s1)
 {
 	char	*s;
 	int		i;
+	int		count;
 
 	i = 0;
-	s = (char *)malloc(sizeof(char) * (ft_strlen(s1) + 1));
+	count = ft_strlen(s1);
+	s = (char *)malloc(sizeof(char) * (count + 1));
 	if (!s)
 		return (NULL);
 	while (*s1)

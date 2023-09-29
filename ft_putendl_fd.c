@@ -1,39 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnstr.c                                       :+:      :+:    :+:   */
+/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/23 18:40:48 by mosada            #+#    #+#             */
-/*   Updated: 2023/09/29 15:08:32 by mosada           ###   ########.fr       */
+/*   Created: 2023/09/29 22:00:18 by mosada            #+#    #+#             */
+/*   Updated: 2023/09/29 22:35:43 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
+void	ft_putendl_fd(char *s, int fd)
 {
-	size_t		count;
-	size_t		nlen;
-	const char	*h;
-	const char	*n;
-
-	count = 0;
-	nlen = ft_strlen(needle);
-	while ((count + nlen) != len)
-	{
-		h = haystack;
-		n = needle;
-		while (*n && (*n == *h))
-		{
-			n++;
-			h++;
-		}
-		if (!*n)
-			return ((char *)haystack);
-		count++;
-		haystack++;
-	}
-	return (NULL);
+	while (*s)
+		write(fd, s++, 1);
+	write(fd ,"\n", 1);
 }
