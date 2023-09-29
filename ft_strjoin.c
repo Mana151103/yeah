@@ -1,28 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/25 21:12:21 by mosada            #+#    #+#             */
-/*   Updated: 2023/09/27 15:27:19 by mosada           ###   ########.fr       */
+/*   Created: 2023/09/27 10:42:41 by mosada            #+#    #+#             */
+/*   Updated: 2023/09/28 08:50:26 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
 
-char	*ft_strdup(const char *s1)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	char	*s;
-	int		i;
+	char	*a;
+	char	*b;
 
-	i = 0;
-	s = (char *)malloc(sizeof(char) * (ft_strlen(s1) + 1));
-	if (!s)
+	a = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (!a)
 		return (NULL);
-	while (*s1)
-		s[i++] = *s1++;
-	s[i] = '\0';
-	return (s);
+	b = a;
+	ft_strlcpy(b, s1, ft_strlen(s1));
+	b--;
+	ft_strlcpy(b, s2, ft_strlen(s2));
+	*b = '\0';
+	return (a);
 }

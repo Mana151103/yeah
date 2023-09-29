@@ -1,28 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/25 21:12:21 by mosada            #+#    #+#             */
-/*   Updated: 2023/09/27 15:27:19 by mosada           ###   ########.fr       */
+/*   Created: 2023/09/26 13:35:16 by mosada            #+#    #+#             */
+/*   Updated: 2023/09/26 15:12:48 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strdup(const char *s1)
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	char	*s;
-	int		i;
+	char	*a;
 
-	i = 0;
-	s = (char *)malloc(sizeof(char) * (ft_strlen(s1) + 1));
-	if (!s)
-		return (NULL);
-	while (*s1)
-		s[i++] = *s1++;
-	s[i] = '\0';
-	return (s);
+	while (start--)
+		s++;
+	while (len--)
+		a = ft_strdup(s);
+	return (a);
 }

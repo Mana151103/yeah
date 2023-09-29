@@ -6,7 +6,7 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/23 17:21:36 by mosada            #+#    #+#             */
-/*   Updated: 2023/09/25 22:21:38 by mosada           ###   ########.fr       */
+/*   Updated: 2023/09/28 08:50:34y mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,4 +159,48 @@ void	check_strdup(void)
 	for(int i = 0; i < 7; i++)
 		printf ("%d,",test2[i]);
 	puts("");
+	free (test1);
+	free (test2);
+}
+
+void	check_ft_substr(void)
+{
+	char const	s[] = {1,1,1,1,2,2,3,7};
+	char	*a = ft_substr(s, 3, 4);
+	for (int i = 0; i < 4; i++)
+		printf("%d,",a[i]);
+	puts("");
+	free (a);
+}
+
+void	check_ft_strjoin(void)
+{
+	char	s1[] = "imso";
+	char	s2[] = "sleepy";
+	// char	s1[] = {1,1,1,1,1};
+	// char	s2[] = {2,2,2,2,2};
+	char	*a;
+
+	a = ft_strjoin(s1, s2);
+	for (int i = 0; i < 10; i++)
+		printf("%d,",a[i]);
+	puts("");
+	free (a);
+}
+
+void	check_ft_split(void)
+{
+	char	s[] = "hello/this/is-/a/test";
+	char	c = '/';
+	char	**letter = ft_split(s,c);
+
+	for (int i = 0; i < 5; i++)
+		printf("%s\n",letter[i]);
+	puts("");
+}
+
+int	main(void)
+{
+	check_ft_split();
+	return 0;
 }

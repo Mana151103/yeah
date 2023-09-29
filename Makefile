@@ -23,7 +23,11 @@ ft_memcpy.c \
 ft_memmove.c \
 ft_bzero.c \
 ft_calloc.c \
-ft_strdup.c
+ft_strdup.c \
+ft_substr.c \
+ft_strjoin.c \
+ft_split.c \
+ft_strtrim.c
 
 OBJS = $(SRCS:.c=.o)
 
