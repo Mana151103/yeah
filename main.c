@@ -175,17 +175,16 @@ void	check_ft_substr(void)
 
 void	check_ft_strjoin(void)
 {
-	char	s1[] = "imso";
-	char	s2[] = "sleepy";
-	// char	s1[] = {1,1,1,1,1};
-	// char	s2[] = {2,2,2,2,2};
+	//char	s1[] = "imso";
+	//char	s2[] = "sleepy";
+	char	s1[] = {1,1,1,1,1,0};
+	char	s2[] = {2,2,2,2,2,0};
 	char	*a;
 
 	a = ft_strjoin(s1, s2);
 	for (int i = 0; i < 10; i++)
 		printf("%d,",a[i]);
 	puts("");
-	printf("%s\n", a);
 	free (a);
 }
 
@@ -197,11 +196,89 @@ void	check_ft_split(void)
 
 	for (int i = 0; i < 5; i++)
 		printf("%s\n",letter[i]);
+}
+
+void	check_ft_strtrim(void)
+{
+	char	s1[] = "abcd123efg222333321hi";
+	char	set[] = "123";
+	char	*result = ft_strtrim(s1, set);
+	
+	for (int i = 0; i < 9; i++)
+		printf("%c,",result[i]);
 	puts("");
+	free(result);
+}
+
+void	check_ft_itoa(void)
+{
+	int		n = 1234;
+	char	*result = ft_itoa(n);
+
+	for (int i = 0; i < 4; i++)
+		printf("%c,",result[i]);
+	puts("");
+	free(result);
+}
+
+char	teststrmapi(unsigned int num, char chr)
+{
+	if (!num)
+		return ('a');
+	return (chr);
+}
+
+void	check_ft_strmapi()
+{
+	const char	s[] = "1234";
+	char	*result = ft_strmapi(s,teststrmapi);
+
+	for (int i = 0; i < 4; i++)
+		printf("%d,",result[i]);
+	puts("");
+}
+
+void	teststriteri(unsigned int num, char* str)
+{
+	if (str == NULL)
+		return ;
+
+	for (unsigned int i = 0; i < num; i++)
+	{
+		char lastChar = str[0];
+        for (unsigned int j = 1; str[j] != '\0'; j++)
+		{
+			char temp = str[j];
+			str[j] = lastChar;
+			lastChar = temp;
+		}
+        str[0] = lastChar;
+	}
+}
+
+void	check_ft_striteri(void)
+{
+	char	s[] = "abcdefg";
+
+	ft_striteri(s,teststriteri);
+	for (unsigned int i = 0; i < 7; i++)
+		printf("%c,",s[i]);
+	puts("");
+}
+
+void	check_putnbr_fd(void)
+{
+	int	n = 12345;
+
+	ft_putnbr_fd(n, 1);
 }
 
 int	main(void)
 {
-	check_ft_split();
+	char *s = "libft-test-tokyo";
+	char *r1 = strchr(s, 'l' - 256);
+	char *r2 = ft_strchr(s, 'l' - 256);
+	printf("%s\n",r1);
+	printf("%s\n",r2);
 	return 0;
 }
