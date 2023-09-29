@@ -6,23 +6,24 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 13:46:01 by mosada            #+#    #+#             */
-/*   Updated: 2023/09/29 11:04:37 by mosada           ###   ########.fr       */
+/*   Updated: 2023/09/29 13:07:22 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	charset_chack(char s, char *c)
+static int	charset_chack(char s, char *c)
 {
 	while (*c)
-	{	if (s == *c)
+	{	
+		if (s == *c)
 			return (1);
 		c++;
 	}
 	return (0);
 }
 
-int	count_words(char const *s, char *c)
+static int	count_words(char const *s, char *c)
 {
 	int	flag;
 	int	count;
@@ -43,11 +44,11 @@ int	count_words(char const *s, char *c)
 	return (count);
 }
 
-char	*likestrdup(char const *s, char **letter, int count, int i)
+static char	*likestrdup(char const *s, char **letter, int count, int i)
 {
-	int	n;
-	
-	n = 0;
+	// int	n;
+
+	// n = 0;
 	letter[i] = (char *)malloc(sizeof(char) * (count + 1));
 	if (!letter[i])
 	{
@@ -59,39 +60,35 @@ char	*likestrdup(char const *s, char **letter, int count, int i)
 		free (letter);
 		return (NULL);
 	}
-	s -= count;
-	while (n < count)
-		letter[i][n++] = *s++;
-	letter[i][n] = '\0';
+	// while (n < count)
+	// 	letter[i][n++] = *s++;
+	// letter[i][n] = '\0';
+	ft_strlcpy(letter[i], s, count + 1);
 	return (letter[i]);
 }
 
-//#include <stdio.h>
 char	**ft_split(char const *s, char c)
 {
 	char	**letter;
-	int	count;
-	int	i;
-	
+	int		count;
+	int		i;
+	int		n;
+
 	i = 0;
-	letter = (char **)malloc(sizeof(char *) * (count_words(s,&c) + 1));
+	n = count_words(s, &c);
+	letter = (char **)malloc(sizeof(char *) * (n + 1));
 	if(!letter)
-	{
-		free (letter);
 		return (NULL);
-	}
-	while (i < count_words(s,&c))
+	while (i < n)
 	{
 		count = 0;
 		while (charset_chack(*s, &c))
 			s++;
-		while (!charset_chack(*s, &c) && *s)
-		{	
+		while (!charset_chack(s[count], &c) && *s)
 			count++;
-			s++;
-		}
 		//printf("%c\n",*s)
 		letter[i] = likestrdup(s, letter, count, i);
+		s += count;
 		//printf("%d\n",i);
 		i++;
 	}

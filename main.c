@@ -185,6 +185,7 @@ void	check_ft_strjoin(void)
 	for (int i = 0; i < 10; i++)
 		printf("%d,",a[i]);
 	puts("");
+	printf("%s\n", a);
 	free (a);
 }
 
