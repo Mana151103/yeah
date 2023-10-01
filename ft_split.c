@@ -6,24 +6,20 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 13:46:01 by mosada            #+#    #+#             */
-/*   Updated: 2023/09/29 14:32:08 by mosada           ###   ########.fr       */
+/*   Updated: 2023/09/30 14:28:33 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	charset_chack(char s, char *c)
+static int	charset_chack(char s, char c)
 {
-	while (*c)
-	{	
-		if (s == *c)
-			return (1);
-		c++;
-	}
+	if (s == c)
+		return (1);
 	return (0);
 }
 
-static int	count_words(char const *s, char *c)
+static int	count_words(char const *s, char c)
 {
 	int	flag;
 	int	count;
@@ -61,6 +57,19 @@ static char	*likestrdup(char const *s, char **letter, int count, int i)
 	return (letter[i]);
 }
 
+static int	words_len(char const *s, char c)
+{
+	int	count;
+
+	count = 0;
+	while (!charset_chack(*s, c) && *s)
+	{
+		count++;
+		s++;
+	}
+	return (count);
+}
+
 char	**ft_split(char const *s, char c)
 {
 	char	**letter;
@@ -69,17 +78,16 @@ char	**ft_split(char const *s, char c)
 	int		n;
 
 	i = 0;
-	n = count_words(s, &c);
+	n = count_words(s, c);
 	letter = (char **)malloc(sizeof(char *) * (n + 1));
 	if (!letter)
 		return (NULL);
 	while (i < n)
 	{
 		count = 0;
-		while (charset_chack(*s, &c))
+		while (charset_chack(*s, c))
 			s++;
-		while (!charset_chack(s[count], &c) && *s)
-			count++;
+		count = words_len(s, c);
 		letter[i] = likestrdup(s, letter, count, i);
 		s += count;
 		i++;

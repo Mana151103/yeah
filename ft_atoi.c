@@ -6,16 +6,16 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/23 19:49:21 by mosada            #+#    #+#             */
-/*   Updated: 2023/09/24 12:47:17 by mosada           ###   ########.fr       */
+/*   Updated: 2023/09/30 22:54:47 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
+//#include <stdio.h>
 int	ft_atoi(const char *str)
 {
-	int	nbr;
-	int	sign;
+	long	nbr;
+	int		sign;
 
 	nbr = 0;
 	sign = 1;
@@ -23,7 +23,8 @@ int	ft_atoi(const char *str)
 		str++;
 	if (*str == '-')
 		sign *= -1;
-	str++;
+	if (*str == '-' || *str == '+')
+		str++;
 	while (ft_isdigit(*str))
 	{
 		nbr = nbr * 10 + (*str - '0');

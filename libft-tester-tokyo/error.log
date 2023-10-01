@@ -1,0 +1,59 @@
+[test 17] ASSERT_EQ_STR failed: "0x0" is not equal to expected "0x10f007b64"func main at file srcs/test_ft_strrchr.c, line 34
+[test 18] ASSERT_EQ_STR failed: "0x0" is not equal to expected "0x10f007b54"func main at file srcs/test_ft_strrchr.c, line 35
+[test 19] ASSERT_EQ_STR failed: "0x0" is not equal to expected "0x10f007b55"func main at file srcs/test_ft_strrchr.c, line 36
+[test 20] ASSERT_EQ_STR failed: "0x0" is not equal to expected "0x10f007b54"func main at file srcs/test_ft_strrchr.c, line 37
+[test 21] ASSERT_EQ_STR failed: "0x0" is not equal to expected "0x10f007b55"func main at file srcs/test_ft_strrchr.c, line 38
+[test 52] ASSERT_EQ_I failed: ("173") is not equal to expected ("-83"). func main at file srcs/test_ft_strncmp.c, line 34
+[test 53] ASSERT_EQ_I failed: ("87") is not equal to expected ("-169"). func main at file srcs/test_ft_strncmp.c, line 36
+[test 1] ASSERT_EQ_PTR failed: ("0x0") is not equal to expected ("0x108db7b32"). func main at file srcs/test_ft_strnstr.c, line 21
+[test 2] ASSERT_EQ_PTR failed: ("0x108db7b32") is not equal to expected ("0x0"). func main at file srcs/test_ft_strnstr.c, line 22
+[test 3] ASSERT_EQ_PTR failed: ("0x108db7b32") is not equal to expected ("0x0"). func main at file srcs/test_ft_strnstr.c, line 23
+[test 4] ASSERT_EQ_PTR failed: ("0x108db7b38") is not equal to expected ("0x0"). func main at file srcs/test_ft_strnstr.c, line 24
+[test 5] ASSERT_EQ_PTR failed: ("0x108db7b3d") is not equal to expected ("0x0"). func main at file srcs/test_ft_strnstr.c, line 25
+[test 6] ASSERT_EQ_PTR failed: ("0x108db7b71") is not equal to expected ("0x0"). func main at file srcs/test_ft_strnstr.c, line 26
+[test 7] ASSERT_EQ_PTR failed: ("0x108db7b78") is not equal to expected ("0x0"). func main at file srcs/test_ft_strnstr.c, line 27
+[test 9] ASSERT_EQ_PTR failed: ("0x108db7b32") is not equal to expected ("0x0"). func main at file srcs/test_ft_strnstr.c, line 22
+[test 10] ASSERT_EQ_PTR failed: ("0x108db7b32") is not equal to expected ("0x0"). func main at file srcs/test_ft_strnstr.c, line 23
+[test 11] ASSERT_EQ_PTR failed: ("0x108db7b38") is not equal to expected ("0x0"). func main at file srcs/test_ft_strnstr.c, line 24
+[test 12] ASSERT_EQ_PTR failed: ("0x108db7b3d") is not equal to expected ("0x0"). func main at file srcs/test_ft_strnstr.c, line 25
+[test 13] ASSERT_EQ_PTR failed: ("0x108db7b71") is not equal to expected ("0x0"). func main at file srcs/test_ft_strnstr.c, line 26
+[test 16] ASSERT_EQ_PTR failed: ("0x108db7b32") is not equal to expected ("0x0"). func main at file srcs/test_ft_strnstr.c, line 22
+[test 17] ASSERT_EQ_PTR failed: ("0x108db7b32") is not equal to expected ("0x0"). func main at file srcs/test_ft_strnstr.c, line 23
+[test 18] ASSERT_EQ_PTR failed: ("0x108db7b38") is not equal to expected ("0x0"). func main at file srcs/test_ft_strnstr.c, line 24
+[test 19] ASSERT_EQ_PTR failed: ("0x108db7b3d") is not equal to expected ("0x0"). func main at file srcs/test_ft_strnstr.c, line 25
+[test 20] ASSERT_EQ_PTR failed: ("0x108db7b71") is not equal to expected ("0x0"). func main at file srcs/test_ft_strnstr.c, line 26
+[test 23] ASSERT_EQ_PTR failed: ("0x108db7b32") is not equal to expected ("0x0"). func main at file srcs/test_ft_strnstr.c, line 22
+[test 24] ASSERT_EQ_PTR failed: ("0x108db7b32") is not equal to expected ("0x0"). func main at file srcs/test_ft_strnstr.c, line 23
+[test 25] ASSERT_EQ_PTR failed: ("0x108db7b38") is not equal to expected ("0x0"). func main at file srcs/test_ft_strnstr.c, line 24
+[test 26] ASSERT_EQ_PTR failed: ("0x108db7b3d") is not equal to expected ("0x0"). func main at file srcs/test_ft_strnstr.c, line 25
+[test 27] ASSERT_EQ_PTR failed: ("0x108db7b71") is not equal to expected ("0x0"). func main at file srcs/test_ft_strnstr.c, line 26
+[test 30] ASSERT_EQ_PTR failed: ("0x108db7b32") is not equal to expected ("0x0"). func main at file srcs/test_ft_strnstr.c, line 22
+[test 31] ASSERT_EQ_PTR failed: ("0x108db7b32") is not equal to expected ("0x0"). func main at file srcs/test_ft_strnstr.c, line 23
+[test 33] ASSERT_EQ_PTR failed: ("0x108db7b3d") is not equal to expected ("0x0"). func main at file srcs/test_ft_strnstr.c, line 25
+[test 34] ASSERT_EQ_PTR failed: ("0x108db7b71") is not equal to expected ("0x0"). func main at file srcs/test_ft_strnstr.c, line 26
+[test 37] ASSERT_EQ_PTR failed: ("0x108db7b32") is not equal to expected ("0x0"). func main at file srcs/test_ft_strnstr.c, line 22
+[test 38] ASSERT_EQ_PTR failed: ("0x0") is not equal to expected ("0x108db7b32"). func main at file srcs/test_ft_strnstr.c, line 23
+[test 41] ASSERT_EQ_PTR failed: ("0x108db7b71") is not equal to expected ("0x0"). func main at file srcs/test_ft_strnstr.c, line 26
+[test 44] ASSERT_EQ_PTR failed: ("0x108db7b32") is not equal to expected ("0x0"). func main at file srcs/test_ft_strnstr.c, line 22
+[test 51] ASSERT_EQ_PTR failed: ("0x108db7b32") is not equal to expected ("0x0"). func main at file srcs/test_ft_strnstr.c, line 22
+[test 58] ASSERT_EQ_PTR failed: ("0x108db7b32") is not equal to expected ("0x0"). func main at file srcs/test_ft_strnstr.c, line 22
+[test 65] ASSERT_EQ_PTR failed: ("0x108db7b32") is not equal to expected ("0x0"). func main at file srcs/test_ft_strnstr.c, line 22
+[test 72] ASSERT_EQ_PTR failed: ("0x108db7b32") is not equal to expected ("0x0"). func main at file srcs/test_ft_strnstr.c, line 22
+[test 74] ASSERT_EQ_PTR failed: ("0x0") is not equal to expected ("0x108db7b38"). func main at file srcs/test_ft_strnstr.c, line 24
+[test 79] ASSERT_EQ_PTR failed: ("0x108db7b32") is not equal to expected ("0x0"). func main at file srcs/test_ft_strnstr.c, line 22
+[test 86] ASSERT_EQ_PTR failed: ("0x108db7b32") is not equal to expected ("0x0"). func main at file srcs/test_ft_strnstr.c, line 22
+[test 93] ASSERT_EQ_PTR failed: ("0x108db7b32") is not equal to expected ("0x0"). func main at file srcs/test_ft_strnstr.c, line 22
+[test 100] ASSERT_EQ_PTR failed: ("0x108db7b32") is not equal to expected ("0x0"). func main at file srcs/test_ft_strnstr.c, line 22
+[test 107] ASSERT_EQ_PTR failed: ("0x108db7b32") is not equal to expected ("0x0"). func main at file srcs/test_ft_strnstr.c, line 22
+[test 114] ASSERT_EQ_PTR failed: ("0x0") is not equal to expected ("0x108db7b43"). func main at file srcs/test_ft_strnstr.c, line 30
+[test 27] ASSERT_EQ_I failed: ("-1") is not equal to expected ("0"). func main at file srcs/test_ft_atoi.c, line 44
+[test 28] ASSERT_EQ_I failed: ("0") is not equal to expected ("-1"). func main at file srcs/test_ft_atoi.c, line 45
+[test 29] ASSERT_EQ_I failed: ("-1") is not equal to expected ("0"). func main at file srcs/test_ft_atoi.c, line 46
+[test 30] ASSERT_EQ_I failed: ("-1") is not equal to expected ("0"). func main at file srcs/test_ft_atoi.c, line 47
+[test 36] ASSERT_EQ_I failed: ("-1") is not equal to expected ("-2"). func main at file srcs/test_ft_atoi.c, line 54
+[test 37] ASSERT_EQ_I failed: ("-1") is not equal to expected ("-2"). func main at file srcs/test_ft_atoi.c, line 55
+[test 1] ASSERT_EQ_STR failed: ("he ") is not equal to expected ("hello "). func main at file srcs/test_ft_strtrim.c, line 17
+[test 2] ASSERT_EQ_STR failed: (" wrd") is not equal to expected (" world"). func main at file srcs/test_ft_strtrim.c, line 18
+[test 5] ASSERT_EQ_STR failed: ("helloworld") is not equal to expected ("hello world"). func main at file srcs/test_ft_strtrim.c, line 21
+[test 6] ASSERT_EQ_STR failed: ("helloworld") is not equal to expected ("hello 
+	 world"). func main at file srcs/test_ft_strtrim.c, line 22

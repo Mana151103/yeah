@@ -1,20 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
+/*   tester.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*   By: susami <susami@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/29 22:00:18 by mosada            #+#    #+#             */
-/*   Updated: 2023/09/30 14:34:29 by mosada           ###   ########.fr       */
+/*   Created: 2022/05/02 09:47:36 by susami            #+#    #+#             */
+/*   Updated: 2022/05/30 12:25:38 by susami           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef TESTER_H
+# define TESTER_H
 
-void	ft_putendl_fd(char *s, int fd)
-{
-	while (*s)
-		write(fd, s++, 1);
-	write(fd, "\n", 1);
-}
+# include <limits.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <ctype.h>
+# include <fcntl.h>
+# include "libft.h"
+# include "libassert.h"
+
+#endif

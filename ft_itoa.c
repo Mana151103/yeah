@@ -6,13 +6,13 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 16:18:54 by mosada            #+#    #+#             */
-/*   Updated: 2023/09/29 17:48:10 by mosada           ###   ########.fr       */
+/*   Updated: 2023/09/30 18:37:11 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	intcount(int n)
+static int	intcount(long long n)
 {
 	int	count;
 
@@ -29,25 +29,27 @@ static int	intcount(int n)
 
 char	*ft_itoa(int n)
 {
-	char	*result;
-	int		count;
-	int		is_negative;
+	char		*result;
+	int			count;
+	int			is_negative;
+	long long	num;
 
-	count = intcount(n);
-	is_negative = (n < 0);
+	num = n;
+	count = intcount(num);
+	is_negative = (num < 0);
 	result = (char *)malloc(sizeof(char) * count + 1);
 	if (!result)
 		return (NULL);
 	if (is_negative)
 	{
 		result[0] = '-';
-		n *= -1;
+		num *= -1;
 	}
 	result[count] = '\0';
-	while (count -- > 0)
+	while (count --)
 	{
-		result[count + is_negative] = n % 10 + '0';
-		n /= 10;
+		result[count + is_negative] = num % 10 + '0';
+		num /= 10;
 	}
 	return (result);
 }
