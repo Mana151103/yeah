@@ -6,12 +6,12 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/23 19:49:21 by mosada            #+#    #+#             */
-/*   Updated: 2023/09/30 22:54:47 by mosada           ###   ########.fr       */
+/*   Updated: 2023/10/01 16:53:18 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-//#include <stdio.h>
+
 int	ft_atoi(const char *str)
 {
 	long	nbr;
@@ -27,6 +27,8 @@ int	ft_atoi(const char *str)
 		str++;
 	while (ft_isdigit(*str))
 	{
+		//INT_MAX or INT_MIN
+		//nbrをintにcast
 		nbr = nbr * 10 + (*str - '0');
 		str++;
 	}

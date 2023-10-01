@@ -6,7 +6,7 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/23 15:44:25 by mosada            #+#    #+#             */
-/*   Updated: 2023/09/29 22:28:29 by mosada           ###   ########.fr       */
+/*   Updated: 2023/10/01 16:22:24 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <unistd.h>
 # include <stdlib.h>
+# include <limits.h>
 
 size_t	ft_strlen(const char *s);
 char	*ft_strchr(const char *s, int c);

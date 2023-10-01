@@ -6,7 +6,7 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 11:44:07 by mosada            #+#    #+#             */
-/*   Updated: 2023/09/29 17:45:52 by mosada           ###   ########.fr       */
+/*   Updated: 2023/10/01 19:00:31 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,17 @@
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
+	unsigned char	*r1;
+	unsigned char	*r2;
+
+	r1 = (unsigned char *)s1;
+	r2 = (unsigned char *)s2;
 	while (n--)
 	{
-		if (*s1 != *s2)
-			return (*s1 - *s2);
-		s1++;
-		s2++;
+		if (*r1 != *r2)
+			return (*r1 - *r2);
+		r1++;
+		r2++;
 	}
 	return (0);
 }

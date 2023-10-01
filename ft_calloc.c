@@ -6,7 +6,7 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 19:25:43 by mosada            #+#    #+#             */
-/*   Updated: 2023/09/25 21:55:05 by mosada           ###   ########.fr       */
+/*   Updated: 2023/10/01 17:33:32 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,14 @@
 
 void	*ft_calloc(size_t count, size_t size)
 {
-	char	*a;
+	char		*a;
+	long long	c;
+	long long	s;
 
+	c = count;
+	s = size;
+	if ((count * size) >= SIZE_T_MAX)
+		return (NULL);
 	a = (char *)malloc(size * count);
 	if (!a)
 		return (NULL);
