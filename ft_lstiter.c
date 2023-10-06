@@ -1,32 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   ft_lstiter.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/25 19:25:43 by mosada            #+#    #+#             */
-/*   Updated: 2023/10/04 19:42:09 by mosada           ###   ########.fr       */
+/*   Created: 2023/10/04 16:10:59 by mosada            #+#    #+#             */
+/*   Updated: 2023/10/04 16:20:19 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
-void *ft_calloc(size_t count, size_t size)
-{
-	char	*a;
 
-	if (!count || !size)
+void	ft_lstiter(t_list *lst, void (*f)(void *))
+{
+	while (lst)
 	{
-		a = malloc(1);
-		if (!a)
-			return (NULL);
-		return (ft_memset(a, 0, 1));
+		f(lst->content);
+		lst = lst->next;
 	}
-	if (size >= (SIZE_T_MAX / count))
-		return (NULL);
-	a = malloc(count * size);
-	if (!a)
-		return (NULL);
-	return (ft_memset(a, 0, count * size));
 }

@@ -15,6 +15,7 @@
 #include <string.h>
 #include <strings.h>
 #include <ctype.h>
+#include <limits.h>
 
 __attribute__((destructor)) static void destructor()
 {
@@ -182,14 +183,14 @@ void check_bzero(void)
 
 void check_ft_calloc(void)
 {
-	char *a = calloc(SIZE_MAX, SIZE_MAX);
-	char *b = ft_calloc(SIZE_MAX, SIZE_MAX);
+	char *a = calloc(INT_MIN, INT_MIN);
+	char *b = ft_calloc(INT_MIN, INT_MIN);
 
 	// for	(int i = 0; i < ; i++)
 	// printf("%d,",a[i]);
 	// puts("");
 	// for	(int i = 0; i < ; i++)
-	//	printf("%d,",b[i]);
+	// 	printf("%d,",b[i]);
 	// puts("");
 	printf("%p\n", a);
 	printf("%p\n", b);
@@ -262,8 +263,8 @@ void check_ft_strtrim(void)
 
 void check_ft_atoi(void)
 {
-	int r1 = ft_atoi("18446744073709551616");
-	int r2 = atoi("18446744073709551616");
+	int r1 = ft_atoi("-9223372036854775807");
+	int r2 = atoi("-9223372036854775807");
 	printf("%d\n", r1);
 	printf("%d\n", r2);
 }
@@ -335,6 +336,6 @@ void check_putnbr_fd(void)
 
 int main(void)
 {
-	check_ft_strnstr();
+	check_ft_calloc();
 	return 0;
 }

@@ -1,32 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/25 19:25:43 by mosada            #+#    #+#             */
-/*   Updated: 2023/10/04 19:42:09 by mosada           ###   ########.fr       */
+/*   Created: 2023/10/04 20:12:33 by mosada            #+#    #+#             */
+/*   Updated: 2023/10/05 10:19:43 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
-void *ft_calloc(size_t count, size_t size)
-{
-	char	*a;
 
-	if (!count || !size)
+t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
+{
+	t_list	*new;
+	t_list	*add;
+	int		count;
+
+	if (!lst || !f || !del)
+		return (NULL);
+	count = ft_lstsize(lst);
+	new = NULL;
+	while (count--)
 	{
-		a = malloc(1);
-		if (!a)
+		add = ft_lstnew(f(lst->content));
+		if (!add)
+		{
+			ft_lstclear(&new, del);
 			return (NULL);
-		return (ft_memset(a, 0, 1));
+		}
+		ft_lstadd_back(&new, add);
+		lst = lst->next;
 	}
-	if (size >= (SIZE_T_MAX / count))
-		return (NULL);
-	a = malloc(count * size);
-	if (!a)
-		return (NULL);
-	return (ft_memset(a, 0, count * size));
+	return (new);
 }
