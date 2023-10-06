@@ -6,7 +6,7 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 19:55:31 by mosada            #+#    #+#             */
-/*   Updated: 2023/09/29 20:08:00 by mosada           ###   ########.fr       */
+/*   Updated: 2023/10/06 19:25:20 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	ft_striteri(char *s, void (*f)(unsigned int, char *))
 	unsigned int	len;
 
 	i = 0;
+	if (!s || !f)
+		return ;
 	len = ft_strlen(s);
 	while (i < len)
 	{

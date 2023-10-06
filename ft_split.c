@@ -6,7 +6,7 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 13:46:01 by mosada            #+#    #+#             */
-/*   Updated: 2023/09/30 14:28:33 by mosada           ###   ########.fr       */
+/*   Updated: 2023/10/06 19:54:38 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ char	**ft_split(char const *s, char c)
 	int		i;
 	int		n;
 
+	if (!s)
+		return (NULL);
 	i = 0;
 	n = count_words(s, c);
 	letter = (char **)malloc(sizeof(char *) * (n + 1));

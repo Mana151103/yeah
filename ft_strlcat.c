@@ -6,7 +6,7 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 13:41:34 by mosada            #+#    #+#             */
-/*   Updated: 2023/10/01 19:32:01 by mosada           ###   ########.fr       */
+/*   Updated: 2023/10/06 18:38:06 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 	i = 0;
 	t = 0;
 	srclen = ft_strlen(src);
-	if (!dst)
+	if (!dstsize)
 		return (srclen);
 	dstlen = ft_strlen(dst);
 	if (dstlen >= dstsize)

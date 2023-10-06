@@ -6,7 +6,7 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 18:25:19 by mosada            #+#    #+#             */
-/*   Updated: 2023/09/25 20:10:38 by mosada           ###   ########.fr       */
+/*   Updated: 2023/10/06 18:00:16 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	*ft_memmove(void *dst, const void *src, size_t len)
 
 	d = (unsigned char *)dst;
 	s = (const unsigned char *)src;
+	if (!dst && !src)
+		return (dst);
 	if (s < d)
 	{
 		while (len--)

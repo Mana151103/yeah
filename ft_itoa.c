@@ -6,7 +6,7 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 16:18:54 by mosada            #+#    #+#             */
-/*   Updated: 2023/09/30 18:37:11 by mosada           ###   ########.fr       */
+/*   Updated: 2023/10/06 17:01:44 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*ft_itoa(int n)
 	num = n;
 	count = intcount(num);
 	is_negative = (num < 0);
-	result = (char *)malloc(sizeof(char) * count + 1);
+	result = (char *)malloc(sizeof(char) * (count + is_negative + 1));
 	if (!result)
 		return (NULL);
 	if (is_negative)
@@ -45,7 +45,7 @@ char	*ft_itoa(int n)
 		result[0] = '-';
 		num *= -1;
 	}
-	result[count] = '\0';
+	result[count + is_negative] = '\0';
 	while (count --)
 	{
 		result[count + is_negative] = num % 10 + '0';

@@ -6,7 +6,7 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 11:19:05 by mosada            #+#    #+#             */
-/*   Updated: 2023/10/01 15:25:27 by mosada           ###   ########.fr       */
+/*   Updated: 2023/10/06 19:57:47 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ char	*ft_strtrim(char const *s1, char const *set)
 	int		count;
 	int		size;
 
+	if (!s1 || !set)
+		return (NULL);
 	i = 0;
 	count = ft_strlen(s1) - 1;
 	while (charset_chack(s1[i], set))

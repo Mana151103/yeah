@@ -6,7 +6,7 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/23 18:40:48 by mosada            #+#    #+#             */
-/*   Updated: 2023/10/01 20:46:19 by mosada           ###   ########.fr       */
+/*   Updated: 2023/10/06 18:58:58 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,15 @@
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 {
 	size_t		count;
-	size_t		nlen;
 	const char	*h;
 	const char	*n;
 
 	count = 0;
 	if (!*needle)
 		return ((char *)haystack);
-	else if (!haystack || !len)
+	else if (!len || *haystack == '\0')
 		return (NULL);
-	else if(!*haystack)
-		return (NULL);
-	nlen = ft_strlen(needle);
-	while ((count + nlen) <= len)
+	while ((count + ft_strlen(needle)) <= len)
 	{
 		h = haystack;
 		n = needle;

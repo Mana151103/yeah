@@ -6,7 +6,7 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 12:26:21 by mosada            #+#    #+#             */
-/*   Updated: 2023/10/05 10:33:02 by mosada           ###   ########.fr       */
+/*   Updated: 2023/10/06 17:50:18 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,12 @@
 
 void	ft_lstadd_back(t_list **lst, t_list *new)
 {
-	t_list	*last;
-
-	if (!*lst || !new)
+	if (!lst || !new)
 		return ;
-	last = ft_lstlast(*lst);
-	last->next = new;
-	new->next = NULL;
+	if (!*lst)
+	{
+		*lst = new;
+		return ;
+	}
+	ft_lstlast(*lst)->next = new;
 }

@@ -6,7 +6,7 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 13:35:16 by mosada            #+#    #+#             */
-/*   Updated: 2023/09/30 21:16:05 by mosada           ###   ########.fr       */
+/*   Updated: 2023/10/06 17:54:18 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	unsigned int	n;
 	unsigned int	size;
 
+	if (!s)
+		return (NULL);
 	n = ft_strlen(s);
 	size = 0;
 	if (start >= n)

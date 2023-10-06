@@ -6,7 +6,7 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 21:52:49 by mosada            #+#    #+#             */
-/*   Updated: 2023/09/29 22:03:32 by mosada           ###   ########.fr       */
+/*   Updated: 2023/10/06 19:38:31 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	ft_putstr_fd(char *s, int fd)
 {
+	if (!s)
+		return ;
 	while (*s)
 		write (fd, s++, 1);
 }

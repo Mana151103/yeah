@@ -6,7 +6,7 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 17:56:43 by mosada            #+#    #+#             */
-/*   Updated: 2023/09/30 22:27:18 by mosada           ###   ########.fr       */
+/*   Updated: 2023/10/06 19:40:46 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 	int		count;
 	int		i;
 
+	if (!s || !f)
+		return (NULL);
 	i = 0;
 	count = ft_strlen(s);
 	result = (char *)malloc(sizeof(char) * (count + 1));

@@ -6,7 +6,7 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 12:18:37 by mosada            #+#    #+#             */
-/*   Updated: 2023/10/05 10:28:29 by mosada           ###   ########.fr       */
+/*   Updated: 2023/10/06 17:42:00 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 t_list	*ft_lstlast(t_list *lst)
 {
 	if (!lst)
-		return (lst);
+		return (NULL);
 	while (lst->next)
 		lst = lst->next;
 	return (lst);
