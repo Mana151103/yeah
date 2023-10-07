@@ -6,18 +6,11 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 13:46:01 by mosada            #+#    #+#             */
-/*   Updated: 2023/10/06 19:54:38 by mosada           ###   ########.fr       */
+/*   Updated: 2023/10/07 16:16:21 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-static int	charset_chack(char s, char c)
-{
-	if (s == c)
-		return (1);
-	return (0);
-}
 
 static int	count_words(char const *s, char c)
 {
@@ -28,9 +21,9 @@ static int	count_words(char const *s, char c)
 	count = 0;
 	while (*s)
 	{
-		if (charset_chack(*s, c))
+		if (*s == c)
 			flag = 1;
-		if (flag == 1 && !charset_chack(*s, c))
+		if (flag == 1 && (*s != c))
 		{
 			count++;
 			flag = 0;
@@ -50,7 +43,6 @@ static char	*likestrdup(char const *s, char **letter, int count, int i)
 			free(letter[i]);
 			i--;
 		}
-		free(letter);
 		return (NULL);
 	}
 	ft_strlcpy(letter[i], s, count + 1);
@@ -62,7 +54,7 @@ static int	words_len(char const *s, char c)
 	int	count;
 
 	count = 0;
-	while (!charset_chack(*s, c) && *s)
+	while ((*s != c) && *s)
 	{
 		count++;
 		s++;
@@ -70,30 +62,43 @@ static int	words_len(char const *s, char c)
 	return (count);
 }
 
-char	**ft_split(char const *s, char c)
+static char	**address_change(const char *s, char c, char **letter, int n)
 {
-	char	**letter;
-	int		count;
-	int		i;
-	int		n;
+	int	count;
+	int	i;
 
-	if (!s)
-		return (NULL);
 	i = 0;
-	n = count_words(s, c);
-	letter = (char **)malloc(sizeof(char *) * (n + 1));
-	if (!letter)
-		return (NULL);
 	while (i < n)
 	{
 		count = 0;
-		while (charset_chack(*s, c))
+		while (*s == c)
 			s++;
 		count = words_len(s, c);
 		letter[i] = likestrdup(s, letter, count, i);
+		if (!letter[i])
+		{
+			free(letter);
+			return (NULL);
+		}
 		s += count;
 		i++;
 	}
 	letter[i] = 0;
 	return (letter);
+}
+
+char	**ft_split(char const *s, char c)
+{
+	char	**letter;
+	char	**p;
+	int		n;
+
+	if (!s)
+		return (NULL);
+	n = count_words(s, c);
+	letter = (char **)malloc(sizeof(char *) * (n + 1));
+	if (!letter)
+		return (NULL);
+	p = address_change(s, c, letter, n);
+	return (p);
 }

@@ -6,7 +6,7 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 16:10:59 by mosada            #+#    #+#             */
-/*   Updated: 2023/10/06 17:13:46 by mosada           ###   ########.fr       */
+/*   Updated: 2023/10/07 16:17:20 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,11 @@
 
 void	ft_lstiter(t_list *lst, void (*f)(void *))
 {
-	t_list	*new;
-
 	if (!lst || !f)
 		return ;
 	while (lst)
 	{
-		new = lst;
-		f(new->content);
+		f(lst->content);
 		lst = lst->next;
 	}
 }

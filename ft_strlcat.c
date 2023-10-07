@@ -6,7 +6,7 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 13:41:34 by mosada            #+#    #+#             */
-/*   Updated: 2023/10/06 18:38:06 by mosada           ###   ########.fr       */
+/*   Updated: 2023/10/07 15:42:29 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 
 size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 {
-	int		i;
-	int		t;
-	int		srclen;
+	size_t	i;
+	size_t	t;
+	size_t	srclen;
 	size_t	dstlen;
 
 	i = 0;

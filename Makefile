@@ -34,8 +34,9 @@ ft_striteri.c \
 ft_putchar_fd.c \
 ft_putstr_fd.c \
 ft_putendl_fd.c \
-ft_putnbr_fd.c \
-ft_lstnew.c \
+ft_putnbr_fd.c
+
+BONUS = ft_lstnew.c \
 ft_lstadd_front.c \
 ft_lstsize.c \
 ft_lstlast.c \
@@ -48,6 +49,10 @@ ft_lstclear.c
 
 OBJS = $(SRCS:.c=.o)
 
+ifdef WITH_BONUS
+	OBJS += $(BONUS:.c=.o)
+endif
+
 all: $(NAME)
 
 $(NAME): $(OBJS)
@@ -57,14 +62,14 @@ $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJS)
+	rm -f $(OBJS) $(BONUS:.c=.o)
 
 fclean: clean
-	re -f $(NAME)
+	rm -f $(NAME)
 
 re:	fclean all
 
 bonus:
-	make WITH_BONUS=1
+	@make WITH_BONUS=1
 
-.PHONY:	all clean fclean re
+.PHONY:	all clean fclean re bonus

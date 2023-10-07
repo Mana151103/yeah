@@ -6,7 +6,7 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 21:12:21 by mosada            #+#    #+#             */
-/*   Updated: 2023/09/29 15:00:52 by mosada           ###   ########.fr       */
+/*   Updated: 2023/10/07 15:43:58 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 char	*ft_strdup(const char *s1)
 {
 	char	*s;
-	int		i;
-	int		count;
+	size_t	i;
+	size_t	count;
 
 	i = 0;
 	count = ft_strlen(s1);

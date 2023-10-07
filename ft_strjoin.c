@@ -6,7 +6,7 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 10:42:41 by mosada            #+#    #+#             */
-/*   Updated: 2023/10/06 19:53:38 by mosada           ###   ########.fr       */
+/*   Updated: 2023/10/07 15:42:53 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*a;
-	int		count1;
-	int		count2;
+	size_t	count1;
+	size_t	count2;
 
 	if (!s1 || !s2)
 		return (NULL);

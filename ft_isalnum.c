@@ -6,7 +6,7 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 01:17:55 by mosada            #+#    #+#             */
-/*   Updated: 2023/09/29 23:07:25 by mosada           ###   ########.fr       */
+/*   Updated: 2023/10/07 17:43:56 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,5 @@
 
 int	ft_isalnum(int c)
 {
-	if (('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z')
-		|| ('0' <= c && c <= '9'))
-		return (1);
-	return (0);
+	return (ft_isalpha(c) || ft_isdigit(c));
 }

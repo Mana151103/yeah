@@ -6,11 +6,12 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 16:18:54 by mosada            #+#    #+#             */
-/*   Updated: 2023/10/06 17:01:44 by mosada           ###   ########.fr       */
+/*   Updated: 2023/10/07 17:41:26 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdbool.h>
 
 static int	intcount(long long n)
 {
@@ -31,7 +32,7 @@ char	*ft_itoa(int n)
 {
 	char		*result;
 	int			count;
-	int			is_negative;
+	bool		is_negative;
 	long long	num;
 
 	num = n;

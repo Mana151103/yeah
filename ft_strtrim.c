@@ -6,7 +6,7 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 11:19:05 by mosada            #+#    #+#             */
-/*   Updated: 2023/10/06 19:57:47 by mosada           ###   ########.fr       */
+/*   Updated: 2023/10/07 15:18:04 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,5 @@ char	*ft_strtrim(char const *s1, char const *set)
 	if (!result)
 		return (NULL);
 	ft_strlcpy(result, s1 + i, size + 2);
-	result[size + 2] = '\0';
 	return (result);
 }

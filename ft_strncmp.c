@@ -6,7 +6,7 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 11:44:07 by mosada            #+#    #+#             */
-/*   Updated: 2023/10/06 18:13:34 by mosada           ###   ########.fr       */
+/*   Updated: 2023/10/07 15:14:04 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,3 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	}
 	return (0);
 }
-
-//return値は校舎のmacだとasciiの差分
