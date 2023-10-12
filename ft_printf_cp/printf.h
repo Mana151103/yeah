@@ -1,29 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_striteri.c                                      :+:      :+:    :+:   */
+/*   printf.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/29 19:55:31 by mosada            #+#    #+#             */
-/*   Updated: 2023/10/07 15:43:32 by mosada           ###   ########.fr       */
+/*   Created: 2023/10/12 10:28:26 by mosada            #+#    #+#             */
+/*   Updated: 2023/10/12 10:48:16 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef PRINT_H
+# define PRINT_H
 
-void	ft_striteri(char *s, void (*f)(unsigned int, char *))
-{
-	size_t	i;
-	size_t	len;
+# include <unistd.h>
+# include <stdarg.h>
 
-	i = 0;
-	if (!s || !f)
-		return ;
-	len = ft_strlen(s);
-	while (i < len)
-	{
-		f(i, s + i);
-		i++;
-	}
-}
+void	ft_putnbr_fd(int n, int fd);
+void	ft_putunbr_fd(int n, int fd);
+void	putaddress_fd(void *a, int fd);
+void	change_to_hexadecimal_up(int v);
+void	change_to_hexadecimal_low(int v);
+void	ft_putstr_fd(char *s, int fd);
+
+#endif

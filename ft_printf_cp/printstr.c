@@ -1,35 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memmove.c                                       :+:      :+:    :+:   */
+/*   printstr.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/24 18:25:19 by mosada            #+#    #+#             */
-/*   Updated: 2023/10/06 18:00:16 by mosada           ###   ########.fr       */
+/*   Created: 2023/10/09 01:32:12 by mosada            #+#    #+#             */
+/*   Updated: 2023/10/12 10:30:42 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "printf.h"
+//#include <unistd.h>
 
-void	*ft_memmove(void *dst, const void *src, size_t len)
+void	ft_putstr_fd(char *s, int fd)
 {
-	unsigned char		*d;
-	const unsigned char	*s;
-
-	d = (unsigned char *)dst;
-	s = (const unsigned char *)src;
-	if (!dst && !src)
-		return (dst);
-	if (s < d)
+	if (!s)
 	{
-		while (len--)
-			*(d + len) = *(s + len);
+		write (fd, "\0", 1);
+		return ;
 	}
-	else
-	{
-		while (len--)
-			*d++ = *s++;
-	}
-	return (dst);
+	while (*s)
+		write (fd, s++, 1);
 }
