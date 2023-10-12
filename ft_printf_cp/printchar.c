@@ -6,16 +6,14 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 20:13:17 by mosada            #+#    #+#             */
-/*   Updated: 2023/10/07 20:32:11 by mosada           ###   ########.fr       */
+/*   Updated: 2023/10/12 10:31:10 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "printf.h"
+//#include <unistd.h>
 
-void	printchar(va_list ap)
+void	ft_putchar_fd(char c, int fd)
 {
-	int	c;
-
-	c = va_arg(ap, int);
-	write(1, &c, 1);
+	write(fd, &c, 1);
 }
