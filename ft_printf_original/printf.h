@@ -1,30 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   printf.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/24 11:44:07 by mosada            #+#    #+#             */
-/*   Updated: 2023/10/07 15:14:04 by mosada           ###   ########.fr       */
+/*   Created: 2023/10/12 10:28:26 by mosada            #+#    #+#             */
+/*   Updated: 2023/10/12 21:58:40 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef PRINTF_H
+# define PRINTF_H
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
-{
-	unsigned char	*r1;
-	unsigned char	*r2;
+# include <unistd.h>
+# include <stdarg.h>
 
-	r1 = (unsigned char *)s1;
-	r2 = (unsigned char *)s2;
-	while (n--)
-	{
-		if (*r1 != *r2 || !*r1 || !*r2)
-			return (*r1 - *r2);
-		r1++;
-		r2++;
-	}
-	return (0);
-}
+void	ft_putnbr_fd(int n, int fd);
+void	ft_putunbr_fd(int n, int fd);
+void	putaddress_fd(void *a, int fd);
+void	change_to_hexadecimal_up(unsigned int v);
+void	change_to_hexadecimal_low(unsigned int v);
+void	ft_putstr_fd(char *s, int fd);
+int		ft_printf(const char *fmt, ...);
+
+#endif

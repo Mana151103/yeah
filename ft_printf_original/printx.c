@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   printp.c                                           :+:      :+:    :+:   */
+/*   printx.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/11 10:19:29 by mosada            #+#    #+#             */
-/*   Updated: 2023/10/12 10:34:00 by mosada           ###   ########.fr       */
+/*   Created: 2023/10/10 10:47:31 by mosada            #+#    #+#             */
+/*   Updated: 2023/10/12 21:58:59 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "printf.h"
-//#include <unistd.h>
 
-static void	lchange_to_hexadecimal_up(long v)
+void	change_to_hexadecimal_up(unsigned int v)
 {
 	char	i;
 
 	if (v / 16)
-		lchange_to_hexadecimal_up(v / 16);
+		change_to_hexadecimal_up(v / 16);
 	if (v % 16 < 10)
 		i = v % 16 + '0';
 	else if (v % 16 >= 10)
@@ -26,20 +25,15 @@ static void	lchange_to_hexadecimal_up(long v)
 	write(1, &i, 1);
 }
 
-void	putaddress_fd(void *a, int fd)
+void	change_to_hexadecimal_low(unsigned int v)
 {
-	void	**p;
-	
-	p = (void **)a;
-	write(1, "0x", 2);
-	lchange_to_hexadecimal_up((long)&(*p));
-}
+	char	i;
 
-// #include <stdio.h>
-// int	main(void)
-// {
-// 	char	p[] = "12345";
-// 	putaddress_fd(p, 1);
-// 	puts("");
-// 	printf("%p\n",p);
-// }
+	if (v / 16)
+		change_to_hexadecimal_low(v / 16);
+	if (v % 16 < 10)
+		i = v % 16 + '0';
+	else if (v % 16 >= 10)
+		i = v % 16 - 10 + 'A';
+	write(1, &i, 1);
+}
