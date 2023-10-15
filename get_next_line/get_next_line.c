@@ -6,7 +6,7 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 21:42:07 by mosada            #+#    #+#             */
-/*   Updated: 2023/10/15 20:51:41 by mosada           ###   ########.fr       */
+/*   Updated: 2023/10/15 21:13:46 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,14 @@ char	*get_next_line(int fd)
 	buffer = (char *)malloc(BUFFER_SIZE);
 	if (!buffer)
 		return (NULL);
-	readbytes = read(fd, buffer, BUFFER_SIZE);
-	if (readbytes == -1)
-		return (NULL);
-	while (readbytes)
+	while (1)
 	{
 		is_line = 0;
+		readbytes = read(fd, buffer, BUFFER_SIZE);
+		if (readbytes == -1)
+			return (NULL);
+		if (readbytes == 0)
+			return (NULL);
 		sum += readbytes;
 		while (i < sum)
 		{
@@ -81,9 +83,7 @@ char	*get_next_line(int fd)
 				ft_strjoin(keep, (buffer + sum - readbytes));
 		}
 	}
-	buffer -= i;
 	free(buffer);
-	return (NULL);
 }
 
 __attribute__((destructor))
