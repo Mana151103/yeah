@@ -6,7 +6,7 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 21:41:59 by mosada            #+#    #+#             */
-/*   Updated: 2023/10/19 10:44:21 by mosada           ###   ########.fr       */
+/*   Updated: 2023/10/19 18:08:44 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,34 +46,12 @@ char	*ft_strndup(char const *s, size_t n)
 	result = (char *)malloc(sizeof(char) * (n + 1));
 	if (!result)
 		return (NULL);
-	if (!n)
-	{
-		
-		//result == ""にする？
-	}
 	while (i < n)
 	{
 		result[i] = s[i];
 		i++;
 	}
 	result[n] = '\0';
-	return (result);
-}
-
-char	*ft_strdup(const char *s1)
-{
-	char	*result;
-	size_t	i;
-	size_t	count;
-
-	i = 0;
-	count = ft_strlen(s1);
-	result = (char *)malloc(sizeof(char) * (count + 1));
-	if (!result)
-		return (NULL);
-	while (*s1)
-		result[i++] = *s1++;
-	result[i] = '\0';
 	return (result);
 }
 
@@ -84,10 +62,10 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	size_t	count2;
 	size_t	sum;
 
-	if (!s1)
-		return (ft_strdup(s2));
-	count1 = ft_strlen(s1);
 	count2 = ft_strlen(s2);
+	if (!s1)
+		return (ft_strndup(s2, count2));
+	count1 = ft_strlen(s1);
 	sum = count1 + count2;
 	a = (char *)malloc(sizeof(char) * (sum + 1));
 	if (!a)
@@ -102,4 +80,17 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		a[count1] = s1[count1];
 	a[0] = s1[0];
 	return (a);
+}
+
+char	*freefunc(char *buffer, char *keep, char *tmp, char *line)
+{
+	if (buffer)
+		free(buffer);
+	if (tmp)
+		free(tmp);
+	if (line)
+		free(line);
+	if (keep)
+		free(keep);
+	return (NULL);
 }
