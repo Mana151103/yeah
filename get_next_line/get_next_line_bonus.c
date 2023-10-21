@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/20 20:53:20 by mosada            #+#    #+#             */
-/*   Updated: 2023/10/21 19:50:54 by mosada           ###   ########.fr       */
+/*   Created: 2023/10/21 15:33:57 by mosada            #+#    #+#             */
+/*   Updated: 2023/10/21 20:00:00 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static char	*update_keep(char *is_newline, char *keep, char *line)
 {
@@ -30,7 +30,7 @@ static char	*update_keep(char *is_newline, char *keep, char *line)
 	return (keep);
 }
 
-char	*readfile(int fd, char *keep)
+static char	*readfile(int fd, char *keep)
 {
 	char		*buffer;
 	ssize_t		readbytes;
@@ -46,7 +46,7 @@ char	*readfile(int fd, char *keep)
 		buffer[readbytes] = '\0';
 		if (readbytes == 0 && *buffer == '\0' && !keep)
 			return (free(buffer), NULL);
-		else if (readbytes == 0 && *buffer == '\0' && *keep != '\0')
+		else if (readbytes == 0 && *buffer == '\0' && keep != '\0')
 			break ;
 		keep = ft_strjoin(keep, buffer);
 		if (!keep)
@@ -62,21 +62,21 @@ char	*get_next_line(int fd)
 {
 	char		*line;
 	char		*is_newline;
-	static char	*keep;
+	static char	*keep[OPEN_MAX];
 
-	if (fd < 0 || fd > OPEN_MAX || BUFFER_SIZE >= INT_MAX)
+	if (fd < 0 || OPEN_MAX < fd || BUFFER_SIZE >= INT_MAX)
 		return (NULL);
-	keep = readfile(fd, keep);
-	is_newline = ft_strchr(keep, '\n');
+	keep[fd] = readfile(fd, keep[fd]);
+	is_newline = ft_strchr(keep[fd], '\n');
 	if (is_newline)
 	{
-		line = ft_strndup(keep, is_newline - keep + 1);
+		line = ft_strndup(keep[fd], is_newline - keep[fd] + 1);
 		if (!line)
-			return (free(keep), NULL);
-		keep = update_keep(is_newline, keep, line);
+			return (free(keep[fd]), NULL);
+		keep[fd] = update_keep(is_newline, keep[fd], line);
 		return (line);
 	}
-	line = keep;
-	keep = NULL;
+	line = keep[fd];
+	keep[fd] = NULL;
 	return (line);
 }
