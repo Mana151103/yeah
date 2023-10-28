@@ -6,7 +6,7 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/21 15:34:58 by mosada            #+#    #+#             */
-/*   Updated: 2023/10/21 15:40:38 by mosada           ###   ########.fr       */
+/*   Updated: 2023/10/28 19:09:59 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	sum = count1 + count2;
 	a = (char *)malloc(sizeof(char) * (sum + 1));
 	if (!a)
-		return (NULL);
+		return (free((void *)s1), NULL);
 	a[sum] = '\0';
 	while (count2--)
 		a[count1 + count2] = s2[count2];
