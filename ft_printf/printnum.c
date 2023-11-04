@@ -6,12 +6,11 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 20:34:57 by mosada            #+#    #+#             */
-/*   Updated: 2023/10/13 21:19:41 by mosada           ###   ########.fr       */
+/*   Updated: 2023/10/15 16:32:56 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include <limits.h>
 
 static void	ft_putchar_fd(char c)
 {
@@ -20,13 +19,13 @@ static void	ft_putchar_fd(char c)
 
 size_t	ft_putnbr(int n)
 {
-	long	num;
-	long	l;
-	size_t	len;
+	long		num;
+	long long	l;
+	size_t		len;
 
 	num = n;
 	l = 0;
-	len = 0;
+	len = 1;
 	if (num < 0)
 	{
 		write(STDOUT_FILENO, "-", 1);
@@ -42,7 +41,7 @@ size_t	ft_putnbr(int n)
 	if (num / 10)
 		ft_putnbr(num / 10);
 	ft_putchar_fd('0' + num % 10);
-	return (len + 1);
+	return (len);
 }
 
 size_t	ft_putunbr(unsigned int n)
@@ -51,7 +50,7 @@ size_t	ft_putunbr(unsigned int n)
 	size_t			len;
 
 	num = n;
-	len = 0;
+	len = 1;
 	while (n / 10)
 	{
 		len++;
@@ -60,7 +59,7 @@ size_t	ft_putunbr(unsigned int n)
 	if (num / 10)
 		ft_putunbr(num / 10);
 	ft_putchar_fd('0' + num % 10);
-	return (len + 1);
+	return (len);
 }
 
 size_t	is_uint(va_list ap)

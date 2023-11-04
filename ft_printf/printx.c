@@ -6,56 +6,35 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 10:47:31 by mosada            #+#    #+#             */
-/*   Updated: 2023/10/13 21:19:15 by mosada           ###   ########.fr       */
+/*   Updated: 2023/10/15 16:18:52 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-size_t	change_to_hexadecimal_up(unsigned int v)
+size_t	change_to_hexadecimal(unsigned int v, bool is_lower)
 {
 	char			i;
 	unsigned int	u;
 	size_t			len;
 
 	u = v;
-	len = 0;
+	len = 1;
 	while (u / 16)
 	{
 		len++;
 		u /= 16;
 	}
 	if (v / 16)
-		change_to_hexadecimal_up(v / 16);
+		change_to_hexadecimal(v / 16, is_lower);
 	if (v % 16 < 10)
 		i = v % 16 + '0';
-	else if (v % 16 >= 10)
+	else if (v % 16 >= 10 && is_lower)
+		i = v % 16 - 10 + 'A';
+	else if (v % 16 >= 10 && !is_lower)
 		i = v % 16 - 10 + 'a';
 	write(STDOUT_FILENO, &i, 1);
-	return (len + 1);
-}
-
-size_t	change_to_hexadecimal_low(unsigned int v)
-{
-	char			i;
-	unsigned int	u;
-	size_t			len;
-
-	u = v;
-	len = 0;
-	while (u / 16)
-	{
-		len++;
-		u /= 16;
-	}
-	if (v / 16)
-		change_to_hexadecimal_low(v / 16);
-	if (v % 16 < 10)
-		i = v % 16 + '0';
-	else if (v % 16 >= 10)
-		i = v % 16 - 10 + 'A';
-	write(STDOUT_FILENO, &i, 1);
-	return (len + 1);
+	return (len);
 }
 
 size_t	is_x(va_list ap, char c)
@@ -65,9 +44,6 @@ size_t	is_x(va_list ap, char c)
 
 	len = 0;
 	n = va_arg(ap, unsigned int);
-	if (c == 'x')
-		len = change_to_hexadecimal_up(n);
-	else
-		len = change_to_hexadecimal_low(n);
+	len = change_to_hexadecimal(n, c == 'x');
 	return (len);
 }

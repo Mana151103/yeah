@@ -6,7 +6,7 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 20:06:02 by mosada            #+#    #+#             */
-/*   Updated: 2023/10/13 21:13:34 by mosada           ###   ########.fr       */
+/*   Updated: 2023/10/15 15:56:42 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,11 @@ static size_t	is_str(va_list ap, char c)
 	return (len);
 }
 
-static size_t	readfmt(char c, size_t len, va_list ap)
+static size_t	readfmt(char c, va_list ap)
 {
+	size_t	len;
+
+	len = 0;
 	if (c == 'd' || c == 'i' || c == 'c')
 		len = is_int(ap, c);
 	else if (c == 'u')
@@ -66,38 +69,26 @@ static size_t	readfmt(char c, size_t len, va_list ap)
 	return (len);
 }
 
-static int	check_after_per(char c)
-{
-	if (c != 'd' && c != 'i' && c != 'c' && c != 'u'
-		&& c != 's' && c != 'p' && c != 'x' && c != 'X' && c != '%')
-		return (1);
-	return (0);
-}
-
 int	ft_printf(const char *fmt, ...)
 {
 	va_list	ap;
-	size_t	len;
 	size_t	sum;
 
 	sum = 0;
 	va_start(ap, fmt);
 	while (*fmt)
 	{
-		len = 0;
+		sum = 0;
 		if (*fmt == '%')
 		{
 			fmt++;
-			if (check_after_per(*fmt))
-				return (va_end(ap), sum);
-			len = readfmt(*fmt, len, ap);
+			sum += readfmt(*fmt, ap);
 		}
 		else
 		{
 			write(STDOUT_FILENO, fmt, 1);
-			len++;
+			sum++;
 		}
-		sum += len;
 		fmt++;
 	}
 	return (va_end(ap), sum);
