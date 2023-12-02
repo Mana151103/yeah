@@ -6,12 +6,14 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 12:01:41 by mosada            #+#    #+#             */
-/*   Updated: 2023/11/29 12:06:54 by mosada           ###   ########.fr       */
+/*   Updated: 2023/12/02 14:49:29 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdlib.h>
+
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 
 static int	count_words(char const *s, char c)
 {

@@ -6,21 +6,27 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 11:22:30 by mosada            #+#    #+#             */
-/*   Updated: 2023/11/30 16:22:24 by mosada           ###   ########.fr       */
+/*   Updated: 2023/12/02 20:55:54 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
 
-typedef	enum	e_bool
+int		get_path_index(char **envp);
+char	**get_path_from_buf(char *buf);
+size_t	ft_strlen(const char *s);
+
+typedef enum e_bool
 {
-	false, //0
-	true, //1
+	false,	//0
+	true,	//1
 }	t_bool;
 
-typedef	struct	s_pipex
+typedef struct s_pipex
 {
 	int		in_fd;
 	int		out_fd;
@@ -31,7 +37,7 @@ typedef	struct	s_pipex
 	int		cmd_count;
 }	t_pipex;
 
-void	initializepipex(t_pipex *pipex) //ft_init_pipex
+void	init_pipex(t_pipex *pipex)
 {
 	pipex->in_fd = 0;
 	pipex->out_fd = 0;
@@ -42,15 +48,11 @@ void	initializepipex(t_pipex *pipex) //ft_init_pipex
 	pipex->cmd_count = 0;
 }
 
-char	*check_args(t_pipex *pipex, char **argv) //file open
+char	*check_args(t_pipex *pipex, char **argv)	//file open
 {
 	if (pipex->cmd_count != 5)
 		return (NULL);
 	if (!pipex->here_doc || pipex->is_invalid_infile)
-		return (NULL);
-	if (access(argv[1], O_RDONLY) == -1)
-		return (NULL);
-	if (access(argv[4], O_WRONLY) == -1)
 		return (NULL);
 	pipex->in_fd = open(argv[1], O_RDONLY);
 	if (pipex->in_fd == -1)
@@ -58,80 +60,180 @@ char	*check_args(t_pipex *pipex, char **argv) //file open
 	pipex->out_fd = open(argv[4], O_WRONLY);
 	if (pipex->in_fd == -1)
 		return (NULL);
+	return ("ok");
 }
 
-char	**ft_parse_cmds(t_pipex *pipex, char **envp) //make path array
+char	**ft_parse_cmds(t_pipex *pipex, char **envp)	//make path array
 {
-	size_t	len;
+	int		n;
 	int		i;
+	int		p_i;
+	char	**paths;
 
 	i = 0;
-	while (envp[i])
+	n = 0;
+	p_i = get_path_index(envp);
+	paths = get_path_from_buf(envp[p_i]);
+	while (paths[i])
 	{
-		pipex->cmd_paths[i] = get_path_from_buf(envp[i]);
+		i++;
+		n++;
+	}
+	i = 0;
+	pipex->cmd_paths = malloc(sizeof(char *) * (n + 1));
+	if (!pipex->cmd_paths)
+		return (NULL);
+	while (paths[i] != NULL)
+	{
+		pipex->cmd_paths[i] = paths[i];
 		i++;
 	}
 	pipex->cmd_paths[i] = NULL;
 	return (pipex->cmd_paths);
 }
 
-char	**ft_parse_args(t_pipex *pipex, char **argv) //make command array
+int	count_words(char *s, char c)
+{
+	int	flag;
+	int	count;
+	int	i;
+
+	flag = 1;
+	count = 0;
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == c)
+			flag = 1;
+		if (flag == 1 && (s[i] != c))
+		{
+			count++;
+			flag = 0;
+		}
+		i++;
+	}
+	return (count);
+}
+
+char	***ft_parse_args(t_pipex *pipex, int argc, char ***argv)	//make command array
 {
 	int		i;
 	int		k;
+	int		j;
+	int		n;
 	size_t	len;
 
-	i = 0;
-	while (i < 2)
+	i = 2;
+	pipex->cmd_args = malloc(sizeof(char **) * (argc - 2));
+	if (!pipex->cmd_args)
+		return (NULL);
+	while (i < (argc - 1))
 	{
 		k = 0;
-		len = ft_strlen(argv[i]);
-		pipex->cmd_args[i] = (char **)malloc(sizeof(char*) * (len + 1));
-		if (!pipex->cmd_args)
-			return (NULL);
-		while (pipex->cmd_args[i])
+		printf("argv[2] = %s\n", *argv[i]);
+		n = count_words(*argv[i], ' ');
+		printf("n = %d\n", n);
+		pipex->cmd_args[i] = malloc(sizeof(char *) * (n + 1));
+		//if (!pipex->cmd_args[i])
+		//{
+		//	while (k < i)
+		//	{
+		//		free(pipex->cmd_args[k]);
+		//		k++;
+		//	}
+		//	return (NULL);
+		//}
+		while (k < n)
 		{
-			pipex->cmd_args[i][k] = argv[i][k];
+			len = ft_strlen(argv[i][k]);
+			printf("len = %zu\n", len);
+			pipex->cmd_args[i][k] = malloc(sizeof(char) * (len + 1));
+			//if (!pipex->cmd_args[i][k])
+			//{
+			//	while (i > -1)
+			//	{
+			//		j = 0;
+			//		while (j < k)
+			//		{
+			//			free(pipex->cmd_args[i][k]);
+			//			j++;
+			//		}
+			//		free(pipex->cmd_args[i]);
+			//		i--;
+			//	}
+			//	free(pipex->cmd_args);
+			//	return (NULL);
+			//}
+			strcpy(pipex->cmd_args[i][k], argv[i][k]);
+			printf("cmd_args = %s\n", pipex->cmd_args[i][k]);
 			k++;
 		}
+		pipex->cmd_args[i][k] = NULL;
 		i++;
 	}
 	pipex->cmd_args[i] = NULL;
 	return (pipex->cmd_args);
 }
 
-void	ft_exec(t_pipex *pipex) //本体
-{
-	int		fd[2];
-	pid_t	pid;
-	char	**commands;
-	char	**paths;
+//void	ft_exec(t_pipex *pipex)
+//{
+//	int		fd[2];
+//	pid_t	pid;
+//	char	**commands;
+//	char	**paths;
 
-	if (pipe(fd) == -1)
-	{
-		perror("pipe");
-		exit(EXIT_FAILURE); //probram finish
-	}
-	pid = fork();
-	if (pid == -1)
-	{
-		perror("fork");
-		return (EXIT_FAILURE);
-	}
-	if (pid == 0) //child
-	{
-		commands = ft_parse_args(pipex, envp);
-		paths = ft_parse_cmds(pipex, argv);
-		dup2(pipex->in_fd, STDOUT_FILENO); //rewrite fd
-		execve(paths, commands, NULL);
-	}
-	else
-	{
-	}
-}
+//	if (pipe(fd) == -1)
+//	{
+//		perror("pipe");
+//		exit(EXIT_FAILURE);	//probram finish
+//	}
+//	pid = fork();
+//	if (pid == -1)
+//	{
+//		perror("fork");
+//		return (EXIT_FAILURE);
+//	}
+//	if (pid == 0)	//child
+//	{
+//		commands = ft_parse_args(pipex, envp);
+//		paths = ft_parse_cmds(pipex, argv);
+//		dup2(pipex->in_fd, STDOUT_FILENO);	//rewrite fd
+//		execve(paths, commands, NULL);
+//	}
+//	else
+//	{
+//	}
+//}
 
-void	ft_cleanup(t_pipex pipex)
-{
-	close();
-	close();
+//void	ft_cleanup(t_pipex pipex)
+//{
+//	close();
+//	close();
+//}
+
+int main(int argc, char **argv) {
+    t_pipex pipex;
+
+    // 引数の配列を取得
+    pipex.cmd_args = ft_parse_args(&pipex, argc, &argv);
+
+    // 取得した引数の配列を表示
+    printf("Command arguments array:\n");
+    for (int i = 0; i < argc - 3; i++) {
+        printf("Command %d arguments:\n", i);
+        for (int k = 0; pipex.cmd_args[i][k] != NULL; k++) {
+            printf("    %s\n", pipex.cmd_args[i][k]);
+        }
+    }
+
+    // メモリ解放
+    for (int i = 0; i < argc - 3; i++) {
+        for (int k = 0; pipex.cmd_args[i][k] != NULL; k++) {
+            free(pipex.cmd_args[i][k]);
+        }
+        free(pipex.cmd_args[i]);
+    }
+    free(pipex.cmd_args);
+
+    return 0;
 }

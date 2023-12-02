@@ -6,11 +6,13 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 12:08:18 by mosada            #+#    #+#             */
-/*   Updated: 2023/11/29 14:27:17 by mosada           ###   ########.fr       */
+/*   Updated: 2023/12/02 14:57:47 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
+
+size_t	ft_strlen(const char *s);
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
