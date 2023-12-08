@@ -6,7 +6,7 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 11:22:30 by mosada            #+#    #+#             */
-/*   Updated: 2023/12/08 21:26:52 by mosada           ###   ########.fr       */
+/*   Updated: 2023/12/08 21:35:20 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,24 @@ char	*process_cmd_path(t_pipex *pipex, char **cmd, int i)
 		return (free(path), NULL);
 }
 
+char	*make_result(t_pipex *pipex, int k)
+{
+	char	**cmd;
+	char	*c_path;
+	int		i;
+
+	i = 0;
+	while (pipex->cmd_paths[i])
+	{
+		cmd = ft_split(pipex->cmd_args[k], ' ');
+		c_path = process_cmd_path(pipex, cmd, i);
+		if (c_path != NULL)
+			return (c_path);
+		i++;
+	}
+	return (NULL);
+}
+
 char	**find_cmds_in_path(t_pipex *pipex, int argc)
 {
 	char	**cmd;
@@ -179,18 +197,8 @@ char	**find_cmds_in_path(t_pipex *pipex, int argc)
 		return (NULL);
 	while (k < (argc - 2))
 	{
-		i = 0;
-		while (pipex->cmd_paths[i])
-		{
-			cmd = ft_split(pipex->cmd_args[k], ' ');
-			result[j] = process_cmd_path(pipex, cmd, i);
-			if (result[j] != NULL)
-			{
-				j++;
-				break ;
-			}
-			i++;
-		}
+		result[j] = make_result(pipex, k);
+		j++;
 		k++;
 	}
 	result[j] = NULL;
