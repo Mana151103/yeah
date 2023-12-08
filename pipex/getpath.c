@@ -6,13 +6,14 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 11:44:40 by mosada            #+#    #+#             */
-/*   Updated: 2023/12/02 16:30:22 by mosada           ###   ########.fr       */
+/*   Updated: 2023/12/06 17:36:52 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	**ft_split(char const *s, char c);
@@ -43,8 +44,38 @@ char	**get_path_from_buf(char *buf)
 	return (path);
 }
 
-//int	main(int argc, char **argv, char **envp)
-//{
+// int main(int argc, char **argv, char **envp) {
+//     int pathIndex = get_path_index(envp);
+
+//     if (pathIndex == -1) {
+//         fprintf(stderr, "PATH 環境変数が見つかりませんでした。\n");
+//         return 1;
+//     }
+
+//     // PATH からディレクトリの配列を取得
+//     char **path = get_path_from_buf(envp[pathIndex]);
+
+//     // ディレクトリ内で ls のパスを検索
+//     char *lsPath = find_ls_in_path(path);
+
+//     if (lsPath != NULL) {
+//         printf("ls のパス: %s\n", lsPath);
+//         free(lsPath); // lsPath で確保したメモリを解放
+//     } else {
+//         printf("PATH 内で ls が見つかりませんでした。\n");
+//     }
+
+//     // path 配列で確保したメモリを解放
+//     for (int i = 0; path[i] != NULL; i++) {
+//         free(path[i]);
+//     }
+//     free(path);
+
+//     return 0;
+// }
+
+// int	main(int argc, char **argv, char **envp)
+// {
 //    int pathIndex = get_path_index(envp);
 
 //    if (pathIndex == -1) {
@@ -65,16 +96,19 @@ char	**get_path_from_buf(char *buf)
 //    free(path); // pathの配列自体のメモリを解放
 
 //    return 0;
-//}
+// }
 
-//> ./a.out
-//PATH contains the following directories:
-///Library/Frameworks/Python.framework/Versions/3.9/bin
-///usr/local/bin
-///usr/bin
-///bin
-///usr/sbin
-///sbin
-///usr/local/go/bin
-///usr/local/munki
-///opt/X11/bin
+// ❯ ./a.out                              
+// PATH contains the following directories:
+// /opt/homebrew/bin
+// /opt/homebrew/sbin
+// /usr/local/bin
+// /System/Cryptexes/App/usr/bin
+// /usr/bin
+// /bin
+// /usr/sbin
+// /sbin
+// /var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin
+// /var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin
+// /var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin
+// /Library/Apple/usr/bin
