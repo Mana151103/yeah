@@ -6,16 +6,16 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 11:22:30 by mosada            #+#    #+#             */
-/*   Updated: 2023/12/15 18:57:08 by mosada           ###   ########.fr       */
+/*   Updated: 2023/12/15 19:12:02 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <fcntl.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
-#include <sys/wait.h>
+//#include <unistd.h>
+//#include <fcntl.h>
+//#include <stdlib.h>
+//#include <string.h>
+//#include <stdio.h>
+//#include <sys/wait.h>
 
 typedef enum e_bool
 {
