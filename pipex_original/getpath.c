@@ -6,12 +6,12 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 11:44:40 by mosada            #+#    #+#             */
-/*   Updated: 2023/12/06 17:36:52 by mosada           ###   ########.fr       */
+/*   Updated: 2023/12/15 16:26:39 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
-#include <stdio.h>
+//#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 

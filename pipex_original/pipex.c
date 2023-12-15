@@ -6,7 +6,7 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 11:22:30 by mosada            #+#    #+#             */
-/*   Updated: 2023/12/10 19:29:20 by mosada           ###   ########.fr       */
+/*   Updated: 2023/12/15 18:24:01 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <sys/wait.h>
 
 int		get_path_index(char **envp);
 char	**get_path_from_buf(char *buf);
@@ -27,8 +28,8 @@ char	*ft_strjoin(char const *s1, char const *s2);
 
 typedef enum e_bool
 {
-	false,	//0
-	true,	//1
+	false,
+	true,
 }	t_bool;
 
 typedef struct s_pipex
@@ -58,7 +59,7 @@ char	*check_args(t_pipex *pipex, int argc, char **argv)	//file open
 	pipex->in_fd = open(argv[1], O_RDONLY);
 	if (pipex->in_fd == -1)
 		return (NULL);
-	pipex->out_fd = open(argv[argc - 1], O_WRONLY | O_CREAT);
+	pipex->out_fd = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0666);
 	if (pipex->out_fd == -1)
 		return (NULL);
 	return ("OK");
@@ -119,7 +120,6 @@ int	count_words(char *s, char c)
 char	**ft_parse_args(t_pipex *pipex, int argc, char **argv) //make cmd array
 {
 	int		i;
-	size_t	len;
 
 	i = 2;
 	pipex->cmd_args = malloc(sizeof(char *) * (argc - 2));
@@ -127,8 +127,7 @@ char	**ft_parse_args(t_pipex *pipex, int argc, char **argv) //make cmd array
 		return (NULL);
 	while (i < argc)
 	{
-		len = ft_strlen(argv[i]);
-		pipex->cmd_args[i - 2] = malloc(sizeof(char) * (len + 1));
+		pipex->cmd_args[i - 2] = malloc(ft_strlen(argv[i]) + 1);
 		if (!pipex->cmd_args[i - 2])
 		{
 			while (i != 2)
@@ -138,10 +137,12 @@ char	**ft_parse_args(t_pipex *pipex, int argc, char **argv) //make cmd array
 			}
 			return (free(pipex->cmd_args), NULL);
 		}
-		ft_strlcpy(pipex->cmd_args[i - 2], argv[i], len + 1);
+		if (i < (argc - 1))
+			ft_strlcpy(pipex->cmd_args[i - 2], argv[i], ft_strlen(argv[i]) + 1);
+		else
+			pipex->cmd_args[i - 2] = NULL;
 		i++;
 	}
-	pipex->cmd_args[i - 2] = NULL;
 	return (pipex->cmd_args);
 }
 
@@ -151,20 +152,17 @@ char	*process_cmd_path(t_pipex *pipex, char **cmd, int i)
 	char	*new_path;
 	char	*new_path2;
 
-	path = malloc(ft_strlen(pipex->cmd_paths[i]) + ft_strlen(cmd[0]) + 2); // "/ + cmd + 1"
-	if (!path)
-		return (NULL);
 	new_path = ft_strjoin(pipex->cmd_paths[i], "/");
+	if (!new_path)
+		return (NULL);
 	new_path2 = ft_strjoin(new_path, cmd[0]);
-	if (!new_path || !new_path2)
-	{
-    	free(new_path);
-    	free(new_path2);
-    	free(path);
-    	return (NULL);
-	}
-	ft_strlcpy(path, new_path2, ft_strlen(new_path2) + 1); //make new path
 	free(new_path);
+	if (!new_path2)
+		return (NULL);
+	path = malloc(ft_strlen(new_path2) + 1);
+	if (!path)
+		return (free(new_path2), NULL);
+	ft_strlcpy(path, new_path2, ft_strlen(new_path2) + 1); //make new path
 	free(new_path2);
 	if (access(path, X_OK) == 0)
 		return (path);
@@ -203,7 +201,7 @@ char	**find_cmds_in_path(t_pipex *pipex, int argc) //make using math array
 	result = malloc(sizeof(char *) * (argc - 1));
 	if (!result)
 		return (NULL);
-	while (k < (argc - 2))
+	while (k < (argc - 3))
 	{
 		result[j] = make_result(pipex, k);
 		j++;
@@ -232,37 +230,48 @@ int	main(int argc, char **argv, char **envp)
 	if (ft_strncmp(check_args(pipex, argc, argv), "OK", 2) == 0)
 	{
 		pipex->cmd_args = ft_parse_args(pipex, argc, argv);
-		for (int j = 0; pipex->cmd_args[j] != NULL; j++)
-			printf("cmd->args[%d] = %s\n", j, pipex->cmd_args[j]);
+		//for (int j = 0; pipex->cmd_args[j] != NULL; j++)
+		//	printf("cmd->args[%d] = %s\n", j, pipex->cmd_args[j]);
 		pipex->cmd_paths = ft_parse_cmds(pipex, envp);
 		paths = find_cmds_in_path(pipex, argc);
-		for (int j = 0; paths[j] != NULL; j++)
-			printf("paths[%d] = %s\n", j, paths[j]);
 		if (pipe(fd) == -1)
 		{
 			perror("pipe");
-			exit(EXIT_FAILURE);	//probram finish
+			exit(EXIT_FAILURE);	//program finish
 		}
-		pid = fork();
-		if (pid < 0)
+		for (k = 0; k < 2; ++k)
 		{
-			perror("fork");
-			return (EXIT_FAILURE);
+			if (k == 0)
+				dup2(pipex->in_fd, STDIN_FILENO); // First command, redirect infile to stdin
+			if (k == 1)
+				dup2(pipex->out_fd, STDOUT_FILENO);
+			pid = fork();
+			if (pid < 0)
+			{
+				perror("fork");
+				return (EXIT_FAILURE);
+			}
+			if (pid == 0)	//child process
+			{
+				dup2(pipex->in_fd, STDIN_FILENO);
+				cmd = ft_split(pipex->cmd_args[k], ' ');
+				dup2(fd[1], STDOUT_FILENO);	//rewrite fd
+				close(fd[0]); //end of pipe
+				execve(paths[k], cmd, NULL);
+			}
+			else //parent process
+			{
+				waitpid(pid, NULL, 0);
+				cmd = ft_split(pipex->cmd_args[k + 1], ' ');
+				//dup2(fd[0], STDIN_FILENO);
+				close(fd[1]); // close the write end of the pipe
+        		if (k < 1)
+					pipex->in_fd = fd[0];
+				else
+					close(fd[0]);
+        	}
 		}
-		if (pid == 0)	//child process
-		{
-			cmd = ft_split(pipex->cmd_args[k], ' ');
-			dup2(fd[1], STDOUT_FILENO);	//rewrite fd
-			close(fd[0]); //end of pipe
-			execve(paths[k], cmd, NULL);
-		}
-		else //parent process
-		{
-			cmd = ft_split(pipex->cmd_args[k + 1], ' ');
-			dup2(fd[0], STDIN_FILENO);
-			close(fd[1]); // close the write end of the pipe
-			execve(paths[k + 1], cmd, NULL);
-		}
+		close(pipex->out_fd);
 		free(pipex->cmd_args);
 		free(pipex->cmd_paths);
 		return (0);
@@ -270,51 +279,3 @@ int	main(int argc, char **argv, char **envp)
 	else
 		return (EXIT_FAILURE);
 }
-
-
-
-//void	ft_cleanup(t_pipex pipex)
-//{
-//	close();
-//	close();
-//}
-
-
-// int main(int argc, char **argv, char **envp) //check find_cmds_in_path
-// {
-// 	char	**cmd_paths;
-// 	char	**cmd_args;
-// 	char	**cmd_path;
-// 	t_pipex	pipex;
-//     init_pipex(&pipex);
-
-// 	cmd_paths = ft_parse_cmds(&pipex, envp);
-// 	if (cmd_paths == NULL)
-// 	{
-//         fprintf(stderr, "Error: Unable to parse command paths.\n");
-//         return 1;
-// 	}
-// 	//for (int i = 0; cmd_paths[i] != NULL; i++)
-// 	//	printf("cmd_paths[%d] = %s\n", i, cmd_paths[i]);
-// 	cmd_args = ft_parse_args(&pipex, argc, argv);
-// 	if (cmd_args == NULL)
-// 	{
-//         fprintf(stderr, "Error: Unable to parse command arguments.\n");
-//         return 1;
-// 	}
-// 	cmd_path = find_cmds_in_path(&pipex, argc);
-// 	if (cmd_path != NULL)
-// 	{
-// 		for (int i = 0; cmd_path[i] != NULL; i++)
-// 			printf("cmd_path[%d] = %s\n", i, cmd_path[i]);
-// 	}
-// 	else
-// 		printf("Command not found in PATH\n");
-// 	for (int i = 0; cmd_paths[i] != NULL; i++)
-// 		free(cmd_paths[i]);
-// 	free(cmd_paths);
-// 	for (int i = 0; cmd_args[i] != NULL; i++)
-//     	free(cmd_args[i]);
-// 	free(cmd_args);
-// 	return 0;
-// }
