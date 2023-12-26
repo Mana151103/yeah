@@ -6,17 +6,11 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 11:44:40 by mosada            #+#    #+#             */
-/*   Updated: 2023/12/15 16:26:39 by mosada           ###   ########.fr       */
+/*   Updated: 2023/12/26 15:55:58 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-//#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-int		ft_strncmp(const char *s1, const char *s2, size_t n);
-char	**ft_split(char const *s, char c);
+#include "pipex.h"
 
 int	get_path_index(char **envp)
 {
