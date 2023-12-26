@@ -3,10 +3,10 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 LIBFT_DIR = libft
 LIBFT_NAME = libft.a
-SRCS = pipex.c \
+SRCS = pipe.c \
 getpath.c \
 set_pipex.c \
-main.c
+pipex.c
 
 OBJS = $(SRCS:.c=.o)
 

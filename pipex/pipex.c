@@ -5,130 +5,96 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/08 11:22:30 by mosada            #+#    #+#             */
-/*   Updated: 2023/12/26 17:08:06 by mosada           ###   ########.fr       */
+/*   Created: 2023/12/26 15:48:33 by mosada            #+#    #+#             */
+/*   Updated: 2023/12/26 20:52:32 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-char	**ft_parse_cmds(t_pipex *pipex, char **envp)	//make path array
-{
-	int		n;
-	int		i;
-	int		p_i;
-	char	**paths;
-
-	i = 0;
-	n = 0;
-	p_i = get_path_index(envp);
-	paths = get_path_from_buf(envp[p_i]);
-	while (paths[i])
-	{
-		i++;
-		n++;
-	}
-	i = 0;
-	pipex->cmd_paths = malloc(sizeof(char *) * (n + 1));
-	if (!pipex->cmd_paths)
-		return (NULL);
-	while (paths[i] != NULL)
-	{
-		pipex->cmd_paths[i] = paths[i];
-		i++;
-	}
-	pipex->cmd_paths[i] = NULL;
-	return (pipex->cmd_paths);
-}
-
-char	**ft_parse_args(t_pipex *pipex, int argc, char **argv) //make cmd array
-{
-	int		i;
-
-	i = 2;
-	pipex->cmd_args = malloc(sizeof(char *) * (argc - 2));
-	if (!pipex->cmd_args)
-		return (NULL);
-	while (i < argc)
-	{
-		pipex->cmd_args[i - 2] = malloc(ft_strlen(argv[i]) + 1);
-		if (!pipex->cmd_args[i - 2])
-		{
-			while (i != 2)
-			{
-				free(pipex->cmd_args[i - 2]);
-				i--;
-			}
-			return (free(pipex->cmd_args), NULL);
-		}
-		if (i < (argc - 1))
-			ft_strlcpy(pipex->cmd_args[i - 2], argv[i], ft_strlen(argv[i]) + 1);
-		else
-			pipex->cmd_args[i - 2] = NULL;
-		i++;
-	}
-	return (pipex->cmd_args);
-}
-
-static char	*process_cmd_path(t_pipex *pipex, char **cmd, int i)
-{
-	char	*path;
-	char	*new_path;
-	char	*new_path2;
-
-	new_path = ft_strjoin(pipex->cmd_paths[i], "/");
-	if (!new_path)
-		return (NULL);
-	new_path2 = ft_strjoin(new_path, cmd[0]);
-	free(new_path);
-	if (!new_path2)
-		return (NULL);
-	path = malloc(ft_strlen(new_path2) + 1);
-	if (!path)
-		return (free(new_path2), NULL);
-	ft_strlcpy(path, new_path2, ft_strlen(new_path2) + 1); //make new path
-	free(new_path2);
-	if (access(path, X_OK) == 0)
-		return (path);
-	else
-		return (free(path), NULL);
-}
-
-static char	*make_result(t_pipex *pipex, int k)
+static void	child(t_pipex *pipex, int k, int **pipes, int argc)
 {
 	char	**cmd;
-	char	*c_path;
-	int		i;
+	char	**paths;
 
-	i = 0;
-	while (pipex->cmd_paths[i])
+	paths = find_cmds_in_path(pipex, argc);
+	if (k != 0)
 	{
-		cmd = ft_split(pipex->cmd_args[k], ' ');
-		c_path = process_cmd_path(pipex, cmd, i);
-		if (c_path != NULL)
-			return (c_path);
-		i++;
+		dup2(pipes[k - 1][0], STDIN_FILENO);
+		close(pipes[k - 1][1]);
 	}
-	return (NULL);
+	if (k != (argc - 4))
+	{
+		dup2(pipes[k][1], STDOUT_FILENO);
+		close(pipes[k][0]);
+	}
+	cmd = ft_split(pipex->cmd_args[k], ' ');
+	execve(paths[k], cmd, NULL);
 }
 
-char	**find_cmds_in_path(t_pipex *pipex, int argc) //make using math array
+static int	pid_process(t_pipex *pipex, int argc, int k, int **pipes)
 {
-	char	**result;
-	int		j;
-	int		k;
+	pid_t	pid;
 
-	j = 0;
-	k = 0;
-	result = malloc(sizeof(char *) * (argc - 1));
-	if (!result)
-		return (NULL);
-	while (k < (argc - 3))
+	if (k == 0)
+		dup2(pipex->in_fd, STDIN_FILENO);
+	if (k == (argc - 4))
+		dup2(pipex->out_fd, STDOUT_FILENO);
+	pid = fork();
+	if (pid < 0)
 	{
-		result[j] = make_result(pipex, k);
-		j++;
-		k++;
+		perror("fork");
+		return (EXIT_FAILURE);
 	}
-	result[j] = NULL;
-	return (result);
+	if (pid == 0)
+		child(pipex, k, pipes, argc);
+	else
+	{
+		waitpid(pid, NULL, 0);
+		if (k != (argc - 4))
+			close(pipes[k][1]);
+	}
+	return (0);
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	t_pipex	*pipex;
+	int		i;
+	int		k;
+	int		**pipes;
+
+	i = 0;
+	k = 0;
+	pipex = (t_pipex *)malloc(sizeof(t_pipex));
+	if (!pipex)
+		return (EXIT_FAILURE);
+	init_pipex(pipex);
+	if (ft_strncmp(check_args(pipex, argc, argv), "OK", 2) == 0)
+	{
+		pipex->cmd_args = ft_parse_args(pipex, argc, argv);
+		pipex->cmd_paths = ft_parse_cmds(pipex, envp);
+		pipes = (int **)malloc((argc - 4) * sizeof(int *));
+		while (i < (argc - 4))
+		{
+			pipes[i] = (int *)malloc(2 * sizeof(int));
+			if (pipe(pipes[i]) == -1)
+			{
+				perror("pipe");
+				exit(EXIT_FAILURE);
+			}
+			i++;
+		}
+		i = 0;
+		while (k < (argc - 3))
+		{
+			pid_process(pipex, argc, k, pipes);
+			k++;
+		}
+		while (i < (argc - 4))
+			free(pipes[i++]);
+		return (free(pipes), free(pipex->cmd_args), free(pipex->cmd_paths), 0);
+	}
+	else
+		return (EXIT_FAILURE);
 }
