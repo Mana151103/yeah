@@ -6,34 +6,11 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 11:22:30 by mosada            #+#    #+#             */
-/*   Updated: 2023/12/26 16:05:06 by mosada           ###   ########.fr       */
+/*   Updated: 2023/12/26 17:08:06 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-void	init_pipex(t_pipex *pipex)
-{
-	pipex->in_fd = 0;
-	pipex->out_fd = 0;
-	pipex->here_doc = false;
-	pipex->is_invalid_infile = false;
-	pipex->cmd_paths = NULL;
-	pipex->cmd_args = NULL;
-}
-
-char	*check_args(t_pipex *pipex, int argc, char **argv)	//file open
-{
-	// if (!pipex->here_doc || pipex->is_invalid_infile)
-	// 	return (NULL);
-	pipex->in_fd = open(argv[1], O_RDONLY);
-	if (pipex->in_fd == -1)
-		return (NULL);
-	pipex->out_fd = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0666);
-	if (pipex->out_fd == -1)
-		return (NULL);
-	return ("OK");
-}
 
 char	**ft_parse_cmds(t_pipex *pipex, char **envp)	//make path array
 {
@@ -155,72 +132,3 @@ char	**find_cmds_in_path(t_pipex *pipex, int argc) //make using math array
 	result[j] = NULL;
 	return (result);
 }
-
-//int	main(int argc, char **argv, char **envp)
-//{
-//	t_pipex *pipex;
-//	int		i;
-//	int		k;
-//	int		fd[2];
-//	pid_t	pid;
-//	char	**paths;
-//	char	**cmd;
-
-//	i = 0;
-//	k = 0;
-//	pipex = (t_pipex *)malloc(sizeof(t_pipex));
-//	if (!pipex)
-//		return (EXIT_FAILURE);
-//	init_pipex(pipex);
-//	if (ft_strncmp(check_args(pipex, argc, argv), "OK", 2) == 0)
-//	{
-//		pipex->cmd_args = ft_parse_args(pipex, argc, argv);
-//		//for (int j = 0; pipex->cmd_args[j] != NULL; j++)
-//		//	printf("cmd->args[%d] = %s\n", j, pipex->cmd_args[j]);
-//		pipex->cmd_paths = ft_parse_cmds(pipex, envp);
-//		paths = find_cmds_in_path(pipex, argc);
-//		if (pipe(fd) == -1)
-//		{
-//			perror("pipe");
-//			exit(EXIT_FAILURE);	//program finish
-//		}
-//		for (k = 0; k < 2; ++k)
-//		{
-//			if (k == 0)
-//				dup2(pipex->in_fd, STDIN_FILENO); // First command, redirect infile to stdin
-//			if (k == 1)
-//				dup2(pipex->out_fd, STDOUT_FILENO);
-//			pid = fork();
-//			if (pid < 0)
-//			{
-//				perror("fork");
-//				return (EXIT_FAILURE);
-//			}
-//			if (pid == 0)	//child process
-//			{
-//				dup2(pipex->in_fd, STDIN_FILENO);
-//				cmd = ft_split(pipex->cmd_args[k], ' ');
-//				dup2(fd[1], STDOUT_FILENO);	//rewrite fd
-//				close(fd[0]); //end of pipe
-//				execve(paths[k], cmd, NULL);
-//			}
-//			else //parent process
-//			{
-//				waitpid(pid, NULL, 0);
-//				cmd = ft_split(pipex->cmd_args[k + 1], ' ');
-//				//dup2(fd[0], STDIN_FILENO);
-//				close(fd[1]); // close the write end of the pipe
-//        		if (k < 1)
-//					pipex->in_fd = fd[0];
-//				else
-//					close(fd[0]);
-//        	}
-//		}
-//		close(pipex->out_fd);
-//		free(pipex->cmd_args);
-//		free(pipex->cmd_paths);
-//		return (0);
-//	}
-//	else
-//		return (EXIT_FAILURE);
-//}

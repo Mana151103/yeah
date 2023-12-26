@@ -6,7 +6,7 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 19:06:15 by mosada            #+#    #+#             */
-/*   Updated: 2023/12/26 16:01:11 by mosada           ###   ########.fr       */
+/*   Updated: 2023/12/26 16:20:14 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <fcntl.h>
 # include <stdlib.h>
 # include <string.h>
-//#include <stdio.h>
+# include <stdio.h>
 # include <sys/wait.h>
 
 typedef enum e_bool
