@@ -6,7 +6,7 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 15:48:33 by mosada            #+#    #+#             */
-/*   Updated: 2023/12/26 20:52:32 by mosada           ###   ########.fr       */
+/*   Updated: 2023/12/27 17:28:37 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +57,47 @@ static int	pid_process(t_pipex *pipex, int argc, int k, int **pipes)
 	return (0);
 }
 
-int	main(int argc, char **argv, char **envp)
+static void	pipes_malloc(int **pipes, int argc)
 {
-	t_pipex	*pipex;
-	int		i;
-	int		k;
-	int		**pipes;
+	int	i;
+
+	i = 0;
+	while (i < (argc - 4))
+	{
+		pipes[i] = (int *)malloc(2 * sizeof(int));
+		if (pipe(pipes[i]) == -1)
+		{
+			perror("pipe");
+			exit(EXIT_FAILURE);
+		}
+		i++;
+	}
+}
+
+static void execution(t_pipex *pipex, int argc, int **pipes)
+{
+	int	i;
+	int	k;
 
 	i = 0;
 	k = 0;
+	while (i < (argc - 3))
+	{
+		pid_process(pipex, argc, i, pipes);
+		i++;
+	}
+	while (k < (argc - 4))
+	{
+		free(pipes[k]);
+		k++;
+	}
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	t_pipex	*pipex;
+	int		**pipes;
+
 	pipex = (t_pipex *)malloc(sizeof(t_pipex));
 	if (!pipex)
 		return (EXIT_FAILURE);
@@ -75,24 +107,10 @@ int	main(int argc, char **argv, char **envp)
 		pipex->cmd_args = ft_parse_args(pipex, argc, argv);
 		pipex->cmd_paths = ft_parse_cmds(pipex, envp);
 		pipes = (int **)malloc((argc - 4) * sizeof(int *));
-		while (i < (argc - 4))
-		{
-			pipes[i] = (int *)malloc(2 * sizeof(int));
-			if (pipe(pipes[i]) == -1)
-			{
-				perror("pipe");
-				exit(EXIT_FAILURE);
-			}
-			i++;
-		}
-		i = 0;
-		while (k < (argc - 3))
-		{
-			pid_process(pipex, argc, k, pipes);
-			k++;
-		}
-		while (i < (argc - 4))
-			free(pipes[i++]);
+		if (!pipes)
+			return (free(pipex), EXIT_FAILURE);
+		pipes_malloc(pipes, argc);
+		execution(pipex, argc, pipes);
 		return (free(pipes), free(pipex->cmd_args), free(pipex->cmd_paths), 0);
 	}
 	else

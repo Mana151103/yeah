@@ -6,7 +6,7 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 17:03:35 by mosada            #+#    #+#             */
-/*   Updated: 2023/12/26 17:04:13 by mosada           ###   ########.fr       */
+/*   Updated: 2023/12/27 16:59:14 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	init_pipex(t_pipex *pipex)
 	pipex->cmd_args = NULL;
 }
 
-char	*check_args(t_pipex *pipex, int argc, char **argv)	//file open
+char	*check_args(t_pipex *pipex, int argc, char **argv)
 {
 	// if (!pipex->here_doc || pipex->is_invalid_infile)
 	// 	return (NULL);

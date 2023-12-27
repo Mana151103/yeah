@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 11:22:30 by mosada            #+#    #+#             */
-/*   Updated: 2023/12/26 17:08:06 by mosada           ###   ########.fr       */
+/*   Updated: 2023/12/27 16:58:57 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-char	**ft_parse_cmds(t_pipex *pipex, char **envp)	//make path array
+char	**ft_parse_cmds(t_pipex *pipex, char **envp)
 {
 	int		n;
 	int		i;
@@ -41,7 +41,7 @@ char	**ft_parse_cmds(t_pipex *pipex, char **envp)	//make path array
 	return (pipex->cmd_paths);
 }
 
-char	**ft_parse_args(t_pipex *pipex, int argc, char **argv) //make cmd array
+char	**ft_parse_args(t_pipex *pipex, int argc, char **argv)
 {
 	int		i;
 
@@ -86,7 +86,7 @@ static char	*process_cmd_path(t_pipex *pipex, char **cmd, int i)
 	path = malloc(ft_strlen(new_path2) + 1);
 	if (!path)
 		return (free(new_path2), NULL);
-	ft_strlcpy(path, new_path2, ft_strlen(new_path2) + 1); //make new path
+	ft_strlcpy(path, new_path2, ft_strlen(new_path2) + 1);
 	free(new_path2);
 	if (access(path, X_OK) == 0)
 		return (path);
@@ -112,7 +112,7 @@ static char	*make_result(t_pipex *pipex, int k)
 	return (NULL);
 }
 
-char	**find_cmds_in_path(t_pipex *pipex, int argc) //make using math array
+char	**find_cmds_in_path(t_pipex *pipex, int argc)
 {
 	char	**result;
 	int		j;
