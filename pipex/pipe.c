@@ -6,7 +6,7 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 11:22:30 by mosada            #+#    #+#             */
-/*   Updated: 2023/12/27 16:58:57 by mosada           ###   ########.fr       */
+/*   Updated: 2023/12/27 20:07:41 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ static char	*process_cmd_path(t_pipex *pipex, char **cmd, int i)
 	if (access(path, X_OK) == 0)
 		return (path);
 	else
-		return (free(path), NULL);
+		return (free(path), cmd[0]);
 }
 
 static char	*make_result(t_pipex *pipex, int k)
@@ -105,11 +105,11 @@ static char	*make_result(t_pipex *pipex, int k)
 	{
 		cmd = ft_split(pipex->cmd_args[k], ' ');
 		c_path = process_cmd_path(pipex, cmd, i);
-		if (c_path != NULL)
+		if (access(c_path, X_OK) == 0)
 			return (c_path);
 		i++;
 	}
-	return (NULL);
+	return (c_path);
 }
 
 char	**find_cmds_in_path(t_pipex *pipex, int argc)
@@ -126,6 +126,11 @@ char	**find_cmds_in_path(t_pipex *pipex, int argc)
 	while (k < (argc - 3))
 	{
 		result[j] = make_result(pipex, k);
+		if (access(result[j], X_OK) != 0)
+		{
+			ft_printf("zsh: command not found: %s\n", result[j]);
+			exit(EXIT_FAILURE);
+		}
 		j++;
 		k++;
 	}

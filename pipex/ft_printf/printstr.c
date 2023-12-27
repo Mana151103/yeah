@@ -1,39 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   getpath.c                                          :+:      :+:    :+:   */
+/*   printstr.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/29 11:44:40 by mosada            #+#    #+#             */
-/*   Updated: 2023/12/27 19:46:13 by mosada           ###   ########.fr       */
+/*   Created: 2023/10/09 01:32:12 by mosada            #+#    #+#             */
+/*   Updated: 2023/10/15 15:44:54 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "ft_printf.h"
 
-int	get_path_index(char **envp)
+static size_t	ft_strlen(const char *s)
 {
-	int	is_path;
-	int	envc;
+	size_t	len;
 
-	envc = 0;
-	while (*envp)
-	{
-		is_path = ft_strncmp(*envp, "PATH=", 5);
-		if (!is_path)
-			return (envc);
-		envp++;
-		envc++;
-	}
-	return (-1);
+	len = 0;
+	while (s[len])
+		len++;
+	return (len);
 }
 
-char	**get_path_from_buf(char *buf)
+size_t	ft_putstr(char *s)
 {
-	char	**path;
+	size_t	len;
 
-	buf += 5;
-	path = ft_split(buf, ':');
-	return (path);
+	if (!s)
+		s = "(null)";
+	len = ft_strlen(s);
+	while (*s)
+		write(STDOUT_FILENO, s++, 1);
+	return (len);
 }

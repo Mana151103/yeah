@@ -6,7 +6,7 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 19:06:15 by mosada            #+#    #+#             */
-/*   Updated: 2023/12/26 16:20:14 by mosada           ###   ########.fr       */
+/*   Updated: 2023/12/27 18:37:34 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ char	**ft_split(char const *s, char c);
 size_t	ft_strlen(const char *s);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 char	*ft_strjoin(char const *s1, char const *s2);
+int		ft_printf(const char *fmt, ...);
 int		get_path_index(char **envp);
 char	**get_path_from_buf(char *buf);
 void	init_pipex(t_pipex *pipex);
