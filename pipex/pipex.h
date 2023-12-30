@@ -6,7 +6,7 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 19:06:15 by mosada            #+#    #+#             */
-/*   Updated: 2023/12/27 18:37:34 by mosada           ###   ########.fr       */
+/*   Updated: 2023/12/30 18:08:51 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,11 @@ typedef struct s_pipex
 {
 	int		in_fd;
 	int		out_fd;
-	t_bool	here_doc;
+	//t_bool	here_doc;
 	t_bool	is_invalid_infile;
 	char	**cmd_paths;
 	char	**cmd_args;
+	pid_t	lastpid;
 }	t_pipex;
 
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
@@ -41,11 +42,13 @@ char	**ft_split(char const *s, char c);
 size_t	ft_strlen(const char *s);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 char	*ft_strjoin(char const *s1, char const *s2);
-int		ft_printf(const char *fmt, ...);
+void	ft_putendl_fd(char *s, int fd);
+void	ft_putstr_fd(char *s, int fd);
 int		get_path_index(char **envp);
 char	**get_path_from_buf(char *buf);
 void	init_pipex(t_pipex *pipex);
 char	*check_args(t_pipex *pipex, int argc, char **argv);
+int		ft_wait(t_pipex *pipex, int argc);
 char	**ft_parse_cmds(t_pipex *pipex, char **envp);
 char	**ft_parse_args(t_pipex *pipex, int argc, char **argv);
 char	**find_cmds_in_path(t_pipex *pipex, int argc);

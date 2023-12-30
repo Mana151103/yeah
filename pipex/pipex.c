@@ -6,7 +6,7 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 15:48:33 by mosada            #+#    #+#             */
-/*   Updated: 2023/12/27 19:52:06 by mosada           ###   ########.fr       */
+/*   Updated: 2023/12/30 19:09:35 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,12 @@ static void	child(t_pipex *pipex, int k, int **pipes, int argc)
 	char	**paths;
 
 	paths = find_cmds_in_path(pipex, argc);
+	if (paths[k] == NULL)
+	{
+		ft_putstr_fd("zsh: command not found: ", STDERR_FILENO);
+		ft_putendl_fd(pipex->cmd_args[k], STDERR_FILENO);
+		exit(EXIT_FAILURE);
+	}
 	if (k != 0)
 	{
 		dup2(pipes[k - 1][0], STDIN_FILENO);
@@ -30,9 +36,15 @@ static void	child(t_pipex *pipex, int k, int **pipes, int argc)
 	}
 	cmd = ft_split(pipex->cmd_args[k], ' ');
 	execve(paths[k], cmd, NULL);
+	for (int i = 0; cmd[i] != NULL; i++)
+		free(cmd[i]);
+	for (int i = 0; paths[i] != NULL; i++)
+		free(paths[i]);
+	free(cmd);
+	free(paths);
 }
 
-static int	pid_process(t_pipex *pipex, int argc, int k, int **pipes)
+static int	pid_process(t_pipex *pipex, int argc, int **pipes, int k)
 {
 	pid_t	pid;
 
@@ -41,6 +53,7 @@ static int	pid_process(t_pipex *pipex, int argc, int k, int **pipes)
 	if (k == (argc - 4))
 		dup2(pipex->out_fd, STDOUT_FILENO);
 	pid = fork();
+	pipex->lastpid = pid;
 	if (pid < 0)
 	{
 		perror("fork");
@@ -50,21 +63,34 @@ static int	pid_process(t_pipex *pipex, int argc, int k, int **pipes)
 		child(pipex, k, pipes, argc);
 	else
 	{
-		waitpid(pid, NULL, 0);
 		if (k != (argc - 4))
+		{
 			close(pipes[k][1]);
+			k++;
+			pid_process(pipex, argc, pipes, k);
+		}
 	}
 	return (0);
 }
 
-static void	pipes_malloc(int **pipes, int argc)
+static void	generate_pipes(int **pipes, int argc)
 {
 	int	i;
 
 	i = 0;
 	while (i < (argc - 4))
 	{
-		pipes[i] = (int *)malloc(2 * sizeof(int));
+		pipes[i] = (int *)malloc(sizeof(int) * 2);
+		if (!pipes[i])
+		{
+			while (i != -1)
+			{
+				free(pipes[i]);
+				i--;
+			}
+			free(pipes);
+			exit(EXIT_FAILURE);
+		}
 		if (pipe(pipes[i]) == -1)
 		{
 			perror("pipe");
@@ -74,23 +100,20 @@ static void	pipes_malloc(int **pipes, int argc)
 	}
 }
 
-static void execution(t_pipex *pipex, int argc, int **pipes)
+static void	execution(t_pipex *pipex, int argc, int **pipes)
 {
-	int	i;
 	int	k;
+	int	i;
 
-	i = 0;
 	k = 0;
-	while (i < (argc - 3))
-	{
-		pid_process(pipex, argc, i, pipes);
-		i++;
-	}
+	i = 0;
+	pid_process(pipex, argc, pipes, k);
 	while (k < (argc - 4))
 	{
 		free(pipes[k]);
 		k++;
 	}
+	free(pipes);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -106,13 +129,23 @@ int	main(int argc, char **argv, char **envp)
 	{
 		pipex->cmd_args = ft_parse_args(pipex, argc, argv);
 		pipex->cmd_paths = ft_parse_cmds(pipex, envp);
-		pipes = (int **)malloc((argc - 4) * sizeof(int *));
+		pipes = (int **)malloc(sizeof(int *) * (argc - 4));
 		if (!pipes)
 			return (free(pipex), EXIT_FAILURE);
-		pipes_malloc(pipes, argc);
+		generate_pipes(pipes, argc);
 		execution(pipex, argc, pipes);
-		return (free(pipes), free(pipex->cmd_args), free(pipex->cmd_paths), 0);
+		ft_wait(pipex, argc);
+		for (int i = 0; pipex->cmd_paths[i] != NULL; i++)
+			free(pipex->cmd_paths[i]);
+		for (int i = 0; pipex->cmd_args[i] != NULL; i++)
+			free(pipex->cmd_args[i]);
+		return (free(pipex->cmd_args), free(pipex->cmd_paths), free(pipex), 0);
 	}
 	else
 		return (EXIT_FAILURE);
+}
+
+__attribute__((destructor))
+static void destructor() {
+    system("leaks -q a.out");
 }

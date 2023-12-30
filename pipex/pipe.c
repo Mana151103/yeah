@@ -6,7 +6,7 @@
 /*   By: mosada <mosada@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 11:22:30 by mosada            #+#    #+#             */
-/*   Updated: 2023/12/27 20:07:41 by mosada           ###   ########.fr       */
+/*   Updated: 2023/12/30 19:00:04 by mosada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,11 @@ char	**ft_parse_cmds(t_pipex *pipex, char **envp)
 	while (paths[i] != NULL)
 	{
 		pipex->cmd_paths[i] = paths[i];
+		free(paths[i]);
 		i++;
 	}
 	pipex->cmd_paths[i] = NULL;
-	return (pipex->cmd_paths);
+	return (free(paths), pipex->cmd_paths);
 }
 
 char	**ft_parse_args(t_pipex *pipex, int argc, char **argv)
@@ -109,6 +110,13 @@ static char	*make_result(t_pipex *pipex, int k)
 			return (c_path);
 		i++;
 	}
+	i = 0;
+	while (cmd[i] != NULL)
+	{
+		free(cmd[i]);
+		i++;
+	}
+	free(cmd);
 	return (c_path);
 }
 
@@ -127,10 +135,7 @@ char	**find_cmds_in_path(t_pipex *pipex, int argc)
 	{
 		result[j] = make_result(pipex, k);
 		if (access(result[j], X_OK) != 0)
-		{
-			ft_printf("zsh: command not found: %s\n", result[j]);
-			exit(EXIT_FAILURE);
-		}
+			result[j] = NULL;
 		j++;
 		k++;
 	}
